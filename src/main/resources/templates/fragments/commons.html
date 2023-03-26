@@ -15,6 +15,9 @@
     <nav class="navbar navbar-expand-lg bg-nav rounded">
         <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
             <ul class="nav-item row align-content-center">
+                <li>
+                    <a class="nav-link text-primary active h5 text-stroke" th:href="@{/}">Home</a>
+                </li>
                 <li sec:authorize="!isAuthenticated()">
                     <a class="nav-link text-primary active h5 text-stroke" th:href="@{/users/login}">Login</a>
                 </li>
@@ -23,7 +26,8 @@
                 </li>
 
                 <li sec:authorize="isAuthenticated()">
-                    <a class="nav-link text-primary active h5 text-stroke" th:href="@{/}">Buy Ticket</a>
+                    <a class="nav-link text-primary active h5 text-stroke" th:href="@{/flight-list}">Search for
+                        flight</a>
                 </li>
 
                 <li sec:authorize="hasRole('ADMIN')">

@@ -16,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Getter
 @Setter
@@ -59,8 +61,7 @@ public class FlightService {
 
             String planeNumber = addFlightDto.getPlaneNumber();
             Flight byPlaneNumber = this.flightRepository.findByPlaneNumber(planeNumber).get();
-            byPlaneNumber.getPlaneNumber().forEach(e -> e.equals(planeNumber));
-            String tryy = "dasd";
+            byPlaneNumber.getPlaneNumber();
         }
 
 
@@ -69,10 +70,14 @@ public class FlightService {
                 addFlightDto.getFlightFrom(),
                 addFlightDto.getFlightTo(),
                 addFlightDto.getPrice(),
-                addFlightDto.getTime()
+                addFlightDto.getTime(),
+                addFlightDto.getPlaneNumber()
         );
-        flight.getPlaneNumber().add(plane);
         flight.setFirmOwner(user);
         this.flightRepository.save(flight);
+    }
+
+    public List<Flight> getAllFlights() {
+        return this.flightRepository.findAllBy();
     }
 }

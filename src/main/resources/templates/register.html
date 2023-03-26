@@ -21,7 +21,7 @@
                    id="username"
                    name="username"
                    th:value="*{username}"/>
-            <small th:if="${#fields.hasErrors('username')}"
+            <small th:if="${#fields.hasErrors('username')} "
                    class="text-danger">Username must be min 3 symbols</small>
         </div>
 
@@ -44,7 +44,7 @@
             </div>
             <input type="password" class="form-control" id="password" name="password"
                    th:value="*{password}"/>
-            <small th:if="${#fields.hasErrors('password')}"
+            <small id="failReg" th:if="${#fields.hasErrors('password')}"
                    class="text-danger">Password must be min 6 symbols</small>
         </div>
 

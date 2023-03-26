@@ -17,7 +17,7 @@ public class Beans {
         httpSecurity
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .antMatchers("/").permitAll()
+                .antMatchers("/", "/home").permitAll()
                 .antMatchers("/users/login", "/users/register").permitAll()
                 .antMatchers("/flights/flight-add").hasAnyRole("FIRM", "ADMIN")
                 .antMatchers("/users/roles").hasRole("ADMIN")
@@ -27,7 +27,7 @@ public class Beans {
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home")
-                .failureForwardUrl("/login?error=true")
+                .failureForwardUrl("/users/login-error")
                 .and()
                 .logout()
                 .logoutUrl("/users/logout")

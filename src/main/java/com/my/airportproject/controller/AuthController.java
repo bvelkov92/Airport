@@ -61,13 +61,21 @@ public class AuthController {
             return "redirect:/users/roles";
         }
         this.roleService.setNewRoleOnUser(changeRole);
-        return "redirect:/home";
+        return "redirect:/index";
 
     }
 
     @GetMapping("/login")
     public String getLogin() {
         return "login";
+    }
+
+    @PostMapping("/login-error")
+    private String failedLogin(RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addFlashAttribute("bad_credentials", true);
+
+        return "redirect:/users/login";
     }
 
 
@@ -86,6 +94,7 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterDto");
             return "redirect:/users/register";
         }
+
         this.authService.register(userRegisterDto);
         this.roleService.setRole(userRegisterDto.getUsername());
         return "redirect:/users/login";

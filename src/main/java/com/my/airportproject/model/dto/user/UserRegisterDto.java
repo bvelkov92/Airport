@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 public class UserRegisterDto {
 
     @Size(min = 3, max = 10)
+    @NotNull
     private String username;
 
     @Size(min = 5)
