@@ -10,5 +10,9 @@ import java.util.Optional;
 public interface PlaneRepository extends JpaRepository<Plane, Long> {
 
 
+    Optional<Plane> findByPlaneNumberAndPlaneOwnerFirm(String planeNumber, String owner);
+
     Optional<Plane> findByPlaneNumber(String planeNumber);
+
+    Optional<Plane> findByPlaneOwnerFirm(String owner);
 }

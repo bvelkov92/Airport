@@ -19,7 +19,7 @@ public class Beans {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/", "/home").permitAll()
                 .antMatchers("/users/login", "/users/register").permitAll()
-                .antMatchers("/flights/flight-add").hasAnyRole("FIRM", "ADMIN")
+                .antMatchers("/flights/flight-add", "/planes/add-plane").hasAnyRole("FIRM", "ADMIN")
                 .antMatchers("/users/roles").hasRole("ADMIN")
                 .and()
                 .formLogin()

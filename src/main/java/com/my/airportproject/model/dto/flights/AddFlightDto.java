@@ -21,7 +21,6 @@ public class AddFlightDto {
     private Double price;
     @NotNull
     private String planeNumber;
-
     @NotNull
     private String time;
 

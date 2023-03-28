@@ -61,7 +61,7 @@ public class AuthController {
             return "redirect:/users/roles";
         }
         this.roleService.setNewRoleOnUser(changeRole);
-        return "redirect:/index";
+        return "redirect:/";
 
     }
 

@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Table(name = "flights")
@@ -25,17 +27,19 @@ public class Flight extends BaseEntity {
     @Column(nullable = false)
     private Double ticketPrice;
 
-    @OneToOne
-    private Plane planeNumber;
     @ManyToOne
     public User firmOwner;
 
+    @OneToMany
+    private Set<Plane> planeNumber;
 
-    public Flight(String flightFrom, String flightTo, Double price, String time, String planeNumber) {
+
+    public Flight(String flightFrom, String flightTo, Double price, String time) {
         this.flightFrom = flightFrom;
         this.flightTo = flightTo;
         this.ticketPrice = price;
         this.timeOfFlight = time;
+        this.planeNumber = new HashSet<>();
     }
 
 }
