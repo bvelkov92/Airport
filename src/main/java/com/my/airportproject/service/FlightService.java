@@ -6,6 +6,7 @@ import com.my.airportproject.model.entity.Flight;
 import com.my.airportproject.model.entity.Plane;
 import com.my.airportproject.repository.FlightRepository;
 import com.my.airportproject.repository.PlaneRepository;
+import com.my.airportproject.repository.TicketRepository;
 import com.my.airportproject.repository.UserRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Getter
@@ -29,36 +29,38 @@ public class FlightService {
     private final PlaneRepository planeRepository;
     private final UserRepository userRepository;
 
+    private final TicketRepository ticketRepository;
+
     public List<Flight> getAllFlights() {
         return flightRepository.findAll();
     }
 
     @Autowired
-    public FlightService(FlightRepository flightRepository, ModelMapper modelMapper, PlaneRepository planeRepository, UserRepository userRepository) {
+    public FlightService(FlightRepository flightRepository, ModelMapper modelMapper, PlaneRepository planeRepository, UserRepository userRepository, TicketRepository ticketRepository) {
         this.flightRepository = flightRepository;
         this.modelMapper = modelMapper;
         this.planeRepository = planeRepository;
         this.userRepository = userRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     public void addFlight(AddFlightDto addFlightDto) {
 
         boolean equalsFromTo = addFlightDto.getFlightFrom().equals(addFlightDto.getFlightTo());
-        boolean foundFlight = this.flightRepository.findByFlightFromAndFlightTo(addFlightDto.getFlightFrom()
-                , addFlightDto.getFlightTo()).isPresent();
-        Optional<Flight> byFlightFromAndFlightTo = this.flightRepository.findByFlightFromAndFlightTo(addFlightDto.getFlightFrom()
-                , addFlightDto.getFlightTo());
+
+        Optional<Flight> isExistFlight = this.flightRepository.
+                findByFlightFromAndFlightToAndTimeOfFlight(addFlightDto.getFlightFrom()
+                , addFlightDto.getFlightTo(), addFlightDto.getTime());
 
         if (equalsFromTo) {
             throw new RuntimeException("Values for Start-End points can't be equals");
         }
-        if (byFlightFromAndFlightTo.isPresent()) {
-            Set<Plane> planeNumber = byFlightFromAndFlightTo.get().getPlaneNumber();
+        if (isExistFlight.isPresent()) {
             throw new RuntimeException("Flight exist");
         }
-        Plane plane = this.planeRepository.findByPlaneNumber(addFlightDto.getPlaneNumber()).get();
+        Optional<Plane> plane = this.planeRepository.findByPlaneNumber(addFlightDto.getPlaneNumber());
 
-        if (plane.getPlaneNumber().isEmpty()) {
+        if (plane.get().getPlaneNumber().isEmpty()) {
             throw new RuntimeException("Plane is not exist!");
         }
 
@@ -66,10 +68,11 @@ public class FlightService {
                 addFlightDto.getFlightFrom(),
                 addFlightDto.getFlightTo(),
                 addFlightDto.getPrice(),
-                addFlightDto.getTime()
+                addFlightDto.getTime(),
+                plane.get()
+
         );
-        flight.setFirmOwner(plane.getPlaneOwnerFirm());
-        flight.getPlaneNumber().add(plane);
+        flight.setFirmOwner(plane.get().getPlaneOwnerFirm());
         Flight flightToSave = this.modelMapper.map(flight, Flight.class);
 
         this.flightRepository.save(flightToSave);

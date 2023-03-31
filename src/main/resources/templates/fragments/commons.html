@@ -26,17 +26,20 @@
                 </li>
 
                 <li sec:authorize="isAuthenticated()">
-                    <a class="nav-link text-primary active h5 text-stroke" th:href="@{/flight-list}">Search for
+                    <a class="nav-link text-primary active h5 text-stroke" th:href="@{/flights/flight-list}">Search for
                         flight</a>
                 </li>
 
                 <li sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link text-primary active h5 text-stroke" th:href="@{/users/roles}">ADMIN PANEL</a>
                 </li>
-
                 <li sec:authorize="hasRole('ADMIN') || hasRole('FIRM')">
                     <a class="nav-link text-primary active h5 text-stroke" th:href="@{/flights/flight-add}">Add
                         Flight</a>
+                    <a th:href="@{/flights/flight-list}">Add Plane</a>
+                </li>
+                <li sec:authorize="hasRole('ADMIN') || hasRole('FIRM')">
+                    <a class="nav-link text-primary active h5 text-stroke" th:href="@{/planes/add-plane}">Add Plane</a>
                 </li>
 
                 <li sec:authorize="isAuthenticated()">

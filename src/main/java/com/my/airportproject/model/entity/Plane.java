@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "planeNumber")
+@Table(name = "planes")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -18,8 +18,6 @@ public class Plane extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private User planeOwnerFirm;
-
-
 
 
     public Plane(String planeNumber) {

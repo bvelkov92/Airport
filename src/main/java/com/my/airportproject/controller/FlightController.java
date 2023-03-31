@@ -1,12 +1,13 @@
 package com.my.airportproject.controller;
 
 import com.my.airportproject.model.dto.flights.AddFlightDto;
-import com.my.airportproject.repository.PlaneRepository;
-import com.my.airportproject.repository.UserRepository;
 import com.my.airportproject.service.FlightService;
+import com.my.airportproject.service.TicketService;
+import com.my.airportproject.views.ViewFlights;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/flights")
@@ -22,14 +24,13 @@ import javax.validation.Valid;
 public class FlightController {
 
     private final FlightService flightService;
-    private final UserRepository userRepository;
-    private final PlaneRepository planeRepository;
+    private final TicketService ticketService;
+
 
     @Autowired
-    public FlightController(FlightService flightService, UserRepository userRepository, PlaneRepository planeRepository) {
+    public FlightController(FlightService flightService, TicketService ticketService) {
         this.flightService = flightService;
-        this.userRepository = userRepository;
-        this.planeRepository = planeRepository;
+        this.ticketService = ticketService;
     }
 
     @GetMapping("/flight-add")
@@ -42,6 +43,7 @@ public class FlightController {
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes) {
 
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addFlightDto", addFlightDto);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addFlightDto");
@@ -50,23 +52,27 @@ public class FlightController {
 
 
         this.flightService.addFlight(addFlightDto);
+        this.ticketService.addTicket(addFlightDto);
+
 
         return "flight-list";
     }
 
-//    @GetMapping("flight-list")
-//    public String getAllFlight(Model model) {
-//         var flight = this.flightService.getAllFlights();
-//
-//               flight.stream()
-//                .map(f ->
-//                        new ViewFlights(f.getFirmOwner().getUsername(), f.getFlightFrom(), f.getFlightTo(), f.getTicketPrice(),
-//                                 f.getTimeOfFlight())
-//                ).collect(Collectors.toList());
-//        model.addAttribute("flights", flight);
-//        return "flight-list";
-//    }
-//
+    @GetMapping("flight-list")
+    public String getAllFlight(Model model) {
+        var flight = this.flightService.getAllFlights();
+
+        List<ViewFlights> flightsList = flight.stream()
+                .map(f ->
+                        new ViewFlights(f.getFirmOwner().getUsername(), f.getFlightFrom(), f.getFlightTo(), f.getTicketPrice(),
+                                f.getPlaneNumber().getPlaneNumber()
+                                , f.getTimeOfFlight(),
+                                f.getTicketPrice())
+                ).toList();
+        model.addAttribute("flightsList", flightsList);
+        return "flight-list";
+    }
+
 
     @ModelAttribute("addNewFlight")
     public AddFlightDto addFlight() {

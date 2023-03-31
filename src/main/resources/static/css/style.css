@@ -65,11 +65,31 @@ footer {
     font-size: large
 }
 
-.table td {
+.table td{
     padding: 2px;
     vertical-align: middle;
     text-align: center;
     border: 2px solid red;
     width: 50px;
-    background: black;
+    background: deepskyblue;
+
 }
+
+.table-dark{
+    margin: 0px;
+    background-color: steelblue;
+
+}
+
+#values{
+    background-color: steelblue;
+    border: 1px solid red;
+    margin: 0px;
+}
+
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: darkkhaki;
+}
+
+

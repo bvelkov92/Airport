@@ -37,11 +37,6 @@ public class User extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Role> roles = new ArrayList<>();
 
-    @OneToMany
-    private Set<Plane> planes = new HashSet<>();
-
-    @OneToMany
-    private List<Flight> flights;
 
     public User(String username, String password, String email) {
         this.username = username;

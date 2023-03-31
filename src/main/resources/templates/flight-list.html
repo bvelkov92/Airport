@@ -10,52 +10,36 @@
     <div class="container bg-blur rounded mt-1 mb-4">
         <div class="col mt-1 mb-2">
             <div class="row-6 mt-1 mb-1">
-                <div>
                     <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Flights</h3>
-                    <div class="bg-dark rounded m-auto">
-                        <table class="table table-striped table-dark">
-                            <tr class="table table-striped table-dark">
-                                <td name="flightRow">From</td>
-                                <td name="flightRow">To</td>
-                                <td name="flightRow">Price</td>
-                                <td name="flightRow">Plane Number</td>
-                                <td name="flightRow">Firm Owner</td>
-                                <td name="flightRow">Flight Time</td>
-
-                                </td>
-                                <td style="width: 15%">
-                                    <a class="btn-danger btn" sec:authorize="hasRole('ADMIN')" href="/">Remove</a>
-                                    <a class="ml-3 text-danger" href="/">
-                                        <img src="/img/buy.png" height="35px"></a>
-                                </td>
+                        <table class="table table-striped">
+                            <tr id="options">
+                                <th name="flightRow">From</th>
+                                <th name="flightRow">To</th>
+                                <th name="flightRow">Price</th>
+                                <th name="flightRow">Plane Number</th>
+                                <th name="flightRow">Firm Owner</th>
+                                <th name="flightRow">Flight Time</th>
+                                <!--                                    <th style="width: 15%">-->
+                                <!--                                        <a class="btn-danger btn" sec:authorize="hasRole('ADMIN')" href="/">Remove</a>-->
+                                <!--                                        <a class="ml-3 text-danger" href="/">-->
+                                <!--                                            <img src="/img/buy.png" height="35px"></a>-->
+                                <!--                                    </th>-->
                             </tr>
-                            <tr>
-                                <section>
-                                    <td th:text="*{from}" name="flightRow"></td>
-                                    <td th:text="*{to}" name="flightRow"></td>
-                                    <td th:text="*{price}" name="flightRow"></td>
-                                    <td th:text="*{planeNumber}" name="flightRow"></td>
-                                    <td th:text="*{firmOwner}" name="flightRow"></td>
-                                    <td th:text="*{flightTime}" name="flightRow"></td>
-                                </section>
-                            </tr>
-
+                            <form th:each="current : ${flightsList}"
+                                  th:object="${current}">
+                                <tr id="values" class="table table-striped">
+                                    <th th:text="*{from}" name="flightRow"></th>
+                                    <th th:text="*{to}" name="flightRow"></th>
+                                    <th th:text="*{price}" name="flightRow"></th>
+                                    <th th:text="*{getPlaneNumber()}" name="flightRow"></th>
+                                    <th th:text="*{firmOwner}" name="flightRow"></th>
+                                    <th th:text="*{flightTime}" name="flightRow"></th>
+                                </tr>
+                            </form>
                         </table>
-                        <!--                            <section>-->
-                        <!--                             <td th:text="*{from}" name="flightRow"></td>-->
-                        <!--                             <td th:text="*{to}" name="flightRow"></td>-->
-                        <!--                             <td th:text="*{price}" name="flightRow"></td>-->
-                        <!--                             <td th:text="*{planeNumber}" name="flightRow"></td>-->
-                        <!--                             <td th:text="*{firmOwner}" name="flightRow"></td>-->
-                        <!--                             <td th:text="*{flightTime}" name="flightRow"></td>-->
-                        <!--                            </section>-->
                     </div>
-                </div>
             </div>
-
         </div>
-    </div>
-    </div>
 </main>
 <footer th:replace="fragments/commons::footer"></footer>
 </body>
