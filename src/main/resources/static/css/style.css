@@ -1,0 +1,102 @@
+.w-15 {
+    width: 15%;
+}
+
+.bg-gray {
+    background-color: #e9ecef;
+}
+
+.bg-nav {
+    background-color: rgba(1, 141, 8, 0);
+}
+
+
+body {
+    background-image: url(../img/background.jpg);
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    margin-bottom: 5rem;
+}
+
+textarea {
+    resize: none;
+}
+
+footer {
+    position: static;
+    bottom: 0;
+    width: 100%;
+}
+
+.img-thumb {
+    padding: .25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    max-width: 100%;
+}
+
+.mySticky {
+    position: sticky;
+    left: 0;
+}
+
+.container {
+
+}
+
+.text-stroke {
+    text-shadow: 0.07em 0 white,
+    0 0.07em white,
+    -0.07em 0 white,
+    0 -0.07em white;
+}
+
+#incLogin {
+    color: red;
+    text-align: center;
+    font-size: large
+}
+
+.text-danger {
+    color: red;
+    text-align: center;
+    font-size: large
+}
+
+.table td {
+    padding: 2px;
+    vertical-align: middle;
+    border: 2px solid red;
+    width: 50px;
+    background: deepskyblue;
+}
+
+.flightRow {
+    margin: 0px;
+    background-color: steelblue;
+    border: 2px solid black;
+    font-family: fantasy;
+}
+
+#values {
+    background-color: steelblue;
+    border: 2px solid red;
+    margin: 0px;
+}
+
+
+/*.table-striped tbody tr:nth-of-type(odd) {*/
+/*    background-color: darkkhaki;*/
+/*}*/
+
+#flightFrom {
+    padding: 2px;
+    vertical-align: middle;
+    text-align: center;
+    border: 2px solid red;
+}
+
+
+
