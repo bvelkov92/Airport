@@ -39,7 +39,7 @@ public class PlaneController {
             return "redirect:/planes/add-plane";
         }
         this.planeService.addPlane(planeDto);
-        return "add-plane";
+        return "redirect:/welcome";
     }
 
     @ModelAttribute("addPlane")

@@ -1,6 +1,5 @@
 package com.my.airportproject.model.entity;
 
-import com.my.airportproject.model.enums.EnumRoles;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

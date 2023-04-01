@@ -5,6 +5,20 @@
 <body>
 <header th:replace="fragments/commons::nav"></header>
 <main>
+    <div id="entryText" class="container bg-blur rounded mt-5 ">
+        <h1>Welcome to Airport App</h1>
+        <hr class="my-3 bg-white w-50"/>
+        <p class="h4">
+            Welcome,
+            <br>
+            If you wish to access all options of our site and if you are firm or just an user who want to buy ticked for
+            some flight, make
+        <h3><a class="text-primary" th:href="@{/users/register}">Register</a></h3> <h4>or
+    </h4>
+        <h3><a class="text-primary" th:href="@{/users/login}">Login</a></h3>
+        <h4> if you have an account to unlock all options.</h4>>
+
+    </div>
 </main>
 <footer th:replace="fragments/commons::footer"></footer>
 </body>

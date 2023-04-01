@@ -86,11 +86,6 @@ footer {
     margin: 0px;
 }
 
-
-/*.table-striped tbody tr:nth-of-type(odd) {*/
-/*    background-color: darkkhaki;*/
-/*}*/
-
 #flightFrom {
     padding: 2px;
     vertical-align: middle;
@@ -98,5 +93,23 @@ footer {
     border: 2px solid red;
 }
 
+#entryText {
+    padding: 0px;
+    background-color: black;
+}
 
+.h1 {
+    text-align: center;
+}
 
+#addMenu {
+    padding: 222px 0px 0px 0px;
+}
+
+#addFlight {
+    padding: 0px 125px 0px 0px;
+}
+
+#addPlane {
+    padding: 0px 0px 0px 125px;
+}

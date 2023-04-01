@@ -54,7 +54,7 @@ public class FlightController {
         this.ticketService.addTicket(addFlightDto);
 
 
-        return "redirect:/";
+        return "redirect:/welcome";
     }
 
     @GetMapping("flight-list")

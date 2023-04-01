@@ -4,8 +4,6 @@ package com.my.airportproject.controller;
 import com.my.airportproject.model.dto.roles.ChangeRoleDto;
 import com.my.airportproject.model.dto.user.UserLoginDto;
 import com.my.airportproject.model.dto.user.UserRegisterDto;
-import com.my.airportproject.model.entity.Role;
-import com.my.airportproject.model.entity.User;
 import com.my.airportproject.service.AuthService;
 import com.my.airportproject.service.RoleService;
 import com.my.airportproject.views.ViewUsers;
@@ -67,7 +65,7 @@ public class AuthController {
             return "redirect:/users/roles";
         }
         this.roleService.setNewRoleOnUser(changeRole);
-        return "redirect:/";
+        return "redirect:/welcome";
 
     }
 
@@ -102,7 +100,7 @@ public class AuthController {
         }
 
         this.authService.register(userRegisterDto);
-        return "redirect:/users/login";
+        return "redirect:/welcome";
     }
 
     @GetMapping("users-list")
@@ -111,12 +109,18 @@ public class AuthController {
 
 
         List<ViewUsers> allUsers = userList.stream().map(user ->
-                new ViewUsers(user.getId(), user.getUsername(), user.getEmail(),
-                        user.getRoles().get(0).getName()))
-        .collect(Collectors.toList());
+                        new ViewUsers(user.getId(), user.getUsername(), user.getEmail(),
+                                user.getRoles().get(0).getName()))
+                .collect(Collectors.toList());
 
         model.addAttribute("allUsers", allUsers);
         return "users-list";
     }
+
+    @GetMapping("/options")
+    public String getOptionMenu() {
+        return "options";
+    }
+
 
 }
