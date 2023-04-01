@@ -65,31 +65,38 @@ footer {
     font-size: large
 }
 
-.table td{
+.table td {
+    padding: 2px;
+    vertical-align: middle;
+    border: 2px solid red;
+    width: 50px;
+    background: deepskyblue;
+}
+
+.flightRow {
+    margin: 0px;
+    background-color: steelblue;
+    border: 2px solid black;
+    font-family: fantasy;
+}
+
+#values {
+    background-color: steelblue;
+    border: 2px solid red;
+    margin: 0px;
+}
+
+
+/*.table-striped tbody tr:nth-of-type(odd) {*/
+/*    background-color: darkkhaki;*/
+/*}*/
+
+#flightFrom {
     padding: 2px;
     vertical-align: middle;
     text-align: center;
     border: 2px solid red;
-    width: 50px;
-    background: deepskyblue;
-
 }
 
-.table-dark{
-    margin: 0px;
-    background-color: steelblue;
-
-}
-
-#values{
-    background-color: steelblue;
-    border: 1px solid red;
-    margin: 0px;
-}
-
-
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: darkkhaki;
-}
 
 

@@ -1,10 +1,12 @@
 package com.my.airportproject.service;
 
 
+import com.my.airportproject.model.dto.roles.ChangeRoleDto;
 import com.my.airportproject.model.dto.user.UserRegisterDto;
+import com.my.airportproject.model.entity.Role;
 import com.my.airportproject.model.entity.User;
+import com.my.airportproject.model.enums.EnumRoles;
 import com.my.airportproject.repository.UserRepository;
-import com.my.airportproject.repository.UserRoleRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,20 +24,15 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserRoleService userRoleService;
-    private final UserRoleRepository roleRepository;
 
     @Autowired
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserRoleService userRoleService, UserRoleRepository roleRepository) {
+    public AuthService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userRoleService = userRoleService;
-        this.roleRepository = roleRepository;
     }
 
     public void register(UserRegisterDto userRegisterDto) {
-        this.userRoleService.addRole();
-
         if (!userRegisterDto.getPassword().equals(userRegisterDto.getConfirmPassword())) {
             throw new RuntimeException("password.match");
         }
@@ -50,9 +48,39 @@ public class AuthService {
                 userRegisterDto.getEmail()
         );
         this.userRepository.save(user);
+        setRole(user.getUsername());
     }
 
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow((() -> new UsernameNotFoundException("User not found!")));
+    }
+
+    public List<User> getAllUsers() {
+        return this.userRepository.findAll();
+    }
+
+    public void setRole(String username) {
+        User user = this.userRepository.findByUsername(username).get();
+        Role role;
+        if (this.userRepository.count() <= 1) {
+            role = new Role(EnumRoles.ADMIN);
+            user.getRoles().add(role);
+        } else {
+            role = new Role(EnumRoles.USER);
+            user.getRoles().add(role);
+        }
+        this.userRepository.save(user);
+    }
+
+    public void setNewRoleOnUser(ChangeRoleDto changeRoleDto) {
+
+        if (this.userRepository.findByUsername(changeRoleDto.getUsername()).isEmpty()) {
+            throw new RuntimeException("Username not found!");
+        }
+        User user = this.userRepository.findByUsername(changeRoleDto.getUsername()).get();
+        user.getRoles().clear();
+        Role role = new Role(changeRoleDto.getRole());
+        user.getRoles().add(role);
+        this.userRepository.save(user);
     }
 }

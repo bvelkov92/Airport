@@ -1,22 +1,26 @@
 package com.my.airportproject.model.entity;
 
-import lombok.AllArgsConstructor;
+import com.my.airportproject.model.enums.EnumRoles;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
-@Entity
 @Table(name = "roles")
+@Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Role extends BaseEntity {
-    @Column
-    private String name;
 
+    @Enumerated(EnumType.STRING)
+    private EnumRoles roles;
+
+    public Role(EnumRoles role) {
+        this.roles = role;
+    }
 }

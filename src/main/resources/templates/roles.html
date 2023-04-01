@@ -27,10 +27,13 @@
             <div class="label-holder text-white textCol d-flex justify-content-center">
                 <label for="role" class="h4 mb-2">New Role</label>
             </div>
-            <input type="role" class="form-control"
-                   id="role"
-                   name="role"
-                   th:value="*{role}"
+            <select id="role"
+                    name="role"
+                    th:value="*{role}">
+                <option class="text-white textCol d-flex justify-content-center">ADMIN</option>
+                <option class="text-white textCol d-flex justify-content-center">FIRM</option>
+                <option class="text-white textCol d-flex justify-content-center">USER</option>
+            </select>
             />
         </div>
 

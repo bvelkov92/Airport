@@ -31,7 +31,7 @@ public class TicketService {
     }
 
 
-    public void addTicket(AddFlightDto flight){
+    public void addTicket(AddFlightDto flight) {
 
         Flight findedFlight = this.flightRepository.findByFlightFromAndFlightToAndTimeOfFlight
                 (flight.getFlightFrom(), flight.getFlightTo(), flight.getTime()).get();
@@ -41,9 +41,9 @@ public class TicketService {
                 .findFirstByFlight_Id(findedFlight.getId());
 
         AddTickedDto tickedDto =
-                new AddTickedDto(findedFlight,findedFlight.getTicketPrice(), findedFlight.getFirmOwner());
+                new AddTickedDto(findedFlight, findedFlight.getTicketPrice(), findedFlight.getFirmOwner());
 
-        if (ticketForSave.isEmpty()){
+        if (ticketForSave.isEmpty()) {
             Ticket ticket = this.modelMapper.map(tickedDto, Ticket.class);
 
 

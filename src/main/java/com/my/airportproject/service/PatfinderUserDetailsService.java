@@ -32,7 +32,7 @@ public class PatfinderUserDetailsService implements UserDetailsService {
                 user.getUsername(),
                 user.getPassword(),
                 user.getRoles().stream()
-                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoles().name()))
                         .collect(Collectors.toList())
         );
     }

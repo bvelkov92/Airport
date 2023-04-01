@@ -55,7 +55,7 @@ public class FlightController {
         this.ticketService.addTicket(addFlightDto);
 
 
-        return "flight-list";
+        return "redirect:/";
     }
 
     @GetMapping("flight-list")
@@ -64,7 +64,7 @@ public class FlightController {
 
         List<ViewFlights> flightsList = flight.stream()
                 .map(f ->
-                        new ViewFlights(f.getFirmOwner().getUsername(), f.getFlightFrom(), f.getFlightTo(), f.getTicketPrice(),
+                        new ViewFlights(f.getId(), f.getFirmOwner().getUsername(), f.getFlightFrom(), f.getFlightTo(), f.getTicketPrice(),
                                 f.getPlaneNumber().getPlaneNumber()
                                 , f.getTimeOfFlight(),
                                 f.getTicketPrice())

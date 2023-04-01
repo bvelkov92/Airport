@@ -5,9 +5,10 @@ import com.my.airportproject.model.dto.roles.ChangeRoleDto;
 import com.my.airportproject.model.dto.user.UserLoginDto;
 import com.my.airportproject.model.dto.user.UserRegisterDto;
 import com.my.airportproject.service.AuthService;
-import com.my.airportproject.service.UserRoleService;
+import com.my.airportproject.views.ViewUsers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,18 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/users")
 public class AuthController {
 
     private final AuthService authService;
-    private final UserRoleService roleService;
 
     @Autowired
-    public AuthController(AuthService authService, UserRoleService roleService) {
+    public AuthController(AuthService authService) {
         this.authService = authService;
-        this.roleService = roleService;
     }
 
     @ModelAttribute("userRegisterDto")
@@ -60,7 +60,7 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.changeRole");
             return "redirect:/users/roles";
         }
-        this.roleService.setNewRoleOnUser(changeRole);
+        this.authService.setNewRoleOnUser(changeRole);
         return "redirect:/";
 
     }
@@ -96,9 +96,19 @@ public class AuthController {
         }
 
         this.authService.register(userRegisterDto);
-        this.roleService.setRole(userRegisterDto.getUsername());
         return "redirect:/users/login";
     }
 
+    @GetMapping("users-list")
+    public String getUserList(Model model) {
+        var userList = this.authService.getAllUsers();
+
+        List<ViewUsers> allUsers = userList.stream().map(user ->
+                new ViewUsers(user.getId(), user.getUsername(), user.getEmail(), user.getRoles().get(0))
+        ).toList();
+
+        model.addAttribute("allUsers", allUsers);
+        return "users-list";
+    }
 
 }

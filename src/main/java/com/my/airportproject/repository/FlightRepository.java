@@ -10,7 +10,6 @@ import java.util.Optional;
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Long> {
 
-    Optional<Flight> findByFlightFromAndFlightTo(String from, String to);
     Optional<Flight> findByFlightFromAndFlightToAndTimeOfFlight(String from, String to, @NotNull String time);
 
 

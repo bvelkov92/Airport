@@ -1,7 +1,6 @@
 package com.my.airportproject.repository;
 
 
-import com.my.airportproject.model.entity.Flight;
 import com.my.airportproject.model.entity.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

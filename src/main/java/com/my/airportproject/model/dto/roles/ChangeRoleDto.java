@@ -1,5 +1,6 @@
 package com.my.airportproject.model.dto.roles;
 
+import com.my.airportproject.model.enums.EnumRoles;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,5 +9,5 @@ import lombok.Setter;
 public class ChangeRoleDto {
 
     String username;
-    String role;
+    EnumRoles role;
 }

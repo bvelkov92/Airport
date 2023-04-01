@@ -1,12 +1,7 @@
 package com.my.airportproject.views;
-
-import com.my.airportproject.model.entity.Plane;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
-
 
 @Getter
 @Setter
@@ -14,6 +9,7 @@ import java.time.LocalDateTime;
 public class ViewFlights {
 
 
+    Long id;
     String firmOwner;
     String from;
     String to;
@@ -26,15 +22,16 @@ public class ViewFlights {
     Double tickedPrice;
 
 
-    public ViewFlights(String firmOwner, String from,
-                       String to, Double price, String planeNumber, String flightTime, Double tickecPrice) {
+    public ViewFlights(Long id, String firmOwner, String from,
+                       String to, Double price, String planeNumber, String flightTime, Double tickedPrice) {
+        this.id=id;
         this.firmOwner = firmOwner;
         this.from = from;
         this.to = to;
         this.price = price;
         this.flightTime = flightTime;
         this.planeNumber =planeNumber;
-        this.tickedPrice = tickecPrice;
+        this.tickedPrice = tickedPrice;
     }
 
 }

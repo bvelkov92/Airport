@@ -10,36 +10,38 @@
     <div class="container bg-blur rounded mt-1 mb-4">
         <div class="col mt-1 mb-2">
             <div class="row-6 mt-1 mb-1">
-                    <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Flights</h3>
-                        <table class="table table-striped">
-                            <tr id="options">
-                                <th name="flightRow">From</th>
-                                <th name="flightRow">To</th>
-                                <th name="flightRow">Price</th>
-                                <th name="flightRow">Plane Number</th>
-                                <th name="flightRow">Firm Owner</th>
-                                <th name="flightRow">Flight Time</th>
-                                <!--                                    <th style="width: 15%">-->
-                                <!--                                        <a class="btn-danger btn" sec:authorize="hasRole('ADMIN')" href="/">Remove</a>-->
-                                <!--                                        <a class="ml-3 text-danger" href="/">-->
-                                <!--                                            <img src="/img/buy.png" height="35px"></a>-->
-                                <!--                                    </th>-->
-                            </tr>
-                            <form th:each="current : ${flightsList}"
-                                  th:object="${current}">
-                                <tr id="values" class="table table-striped">
-                                    <th th:text="*{from}" name="flightRow"></th>
-                                    <th th:text="*{to}" name="flightRow"></th>
-                                    <th th:text="*{price}" name="flightRow"></th>
-                                    <th th:text="*{getPlaneNumber()}" name="flightRow"></th>
-                                    <th th:text="*{firmOwner}" name="flightRow"></th>
-                                    <th th:text="*{flightTime}" name="flightRow"></th>
-                                </tr>
-                            </form>
-                        </table>
-                    </div>
+                <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Flights</h3>
+                <table class="table table-striped">
+                    <tr id="options">
+                        <th class="flightRow">From</th>
+                        <th class="flightRow">To</th>
+                        <th class="flightRow">Price $</th>
+                        <th class="flightRow">Plane Number</th>
+                        <th class="flightRow">Firm Owner</th>
+                        <th class="flightRow">Flight Time</th>
+                        <th class="flightRow">Options</th>
+                    </tr>
+                    <form th:each="current : ${flightsList}"
+                          th:object="${current}">
+                        <tr id="values" class="table table-striped">
+                            <td th:text="*{from}" name="flightList"></td>
+                            <td th:text="*{to}" name="flightList"></td>
+                            <td th:text="*{price}" name="flightList"></td>
+                            <td th:text="*{getPlaneNumber()}" name="flightList"></td>
+                            <td th:text="*{firmOwner}" name="flightList"></td>
+                            <td th:text="*{flightTime}" name="flightList"></td>
+                            <td style="width: 15%">
+                                <a type="button" class="btn-danger btn" sec:authorize="hasRole('ADMIN')"
+                                   onclick="">Remove</a>
+                                <a class="ml-3 text-danger" href="/">
+                                    <img src="/img/buy.png" height="35px"></a>
+                            </td>
+                        </tr>
+                    </form>
+                </table>
             </div>
         </div>
+    </div>
 </main>
 <footer th:replace="fragments/commons::footer"></footer>
 </body>

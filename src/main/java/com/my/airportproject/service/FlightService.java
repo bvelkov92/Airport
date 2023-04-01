@@ -50,7 +50,7 @@ public class FlightService {
 
         Optional<Flight> isExistFlight = this.flightRepository.
                 findByFlightFromAndFlightToAndTimeOfFlight(addFlightDto.getFlightFrom()
-                , addFlightDto.getFlightTo(), addFlightDto.getTime());
+                        , addFlightDto.getFlightTo(), addFlightDto.getTime());
 
         if (equalsFromTo) {
             throw new RuntimeException("Values for Start-End points can't be equals");
@@ -77,4 +77,5 @@ public class FlightService {
 
         this.flightRepository.save(flightToSave);
     }
+
 }
