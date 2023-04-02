@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-
+import java.time.LocalDateTime;
 
 @Table(name = "flights")
 @Entity
@@ -20,7 +20,7 @@ public class Flight extends BaseEntity {
     private String flightTo;
 
     @Column
-    private String timeOfFlight;
+    private LocalDateTime timeOfFlight;
 
     @Column(nullable = false)
     private Double ticketPrice;
@@ -32,12 +32,13 @@ public class Flight extends BaseEntity {
     private Plane planeNumber;
 
 
-    public Flight(String flightFrom, String flightTo, Double price, String time, Plane plane) {
+    public Flight(String flightFrom, String flightTo, Double price, LocalDateTime time, Plane plane) {
         this.flightFrom = flightFrom;
         this.flightTo = flightTo;
         this.ticketPrice = price;
         this.timeOfFlight = time;
         this.planeNumber = plane;
     }
+
 
 }

@@ -19,12 +19,13 @@ public class AddTickedDto {
     private Double price;
 
     @NotNull
-    private Flight flightId;
+    private Flight flight;
 
-    @NotNull User user;
+    @NotNull
+    private User user;
 
     public AddTickedDto(Flight flight, Double ticketPrice, User user) {
-        this.flightId=flight;
+        this.flight =flight;
         this.price = ticketPrice;
         this.user = user;
     }

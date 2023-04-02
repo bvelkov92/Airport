@@ -13,6 +13,18 @@
           th:action="@{register}"
           th:object="${userRegisterDto}">
         <div class="form-group">
+            <div class="form-group">
+                <div class="label-holder textCol d-flex justify-content-center">
+                    <label for="companyName" class="h4 mb-2 text-white">Company Name or Three names</label>
+                </div>
+                <input type="text" class="form-control"
+                       id="companyName"
+                       name="companyName"
+                       th:value="*{companyName}"/>
+                <small th:if="${#fields.hasErrors('companyName')} "
+                       class="text-danger">Username must be min 1 symbol</small>
+            </div>
+
             <div class="label-holder textCol d-flex justify-content-center">
                 <label for="username" class="h4 mb-2 text-white">Username</label>
             </div>
@@ -44,7 +56,7 @@
             </div>
             <input type="password" class="form-control" id="password" name="password"
                    th:value="*{password}"/>
-            <small id="failReg" th:if="${#fields.hasErrors('password')}"
+            <small th:if="${#fields.hasErrors('password')}"
                    class="text-danger">Password must be min 6 symbols</small>
         </div>
 

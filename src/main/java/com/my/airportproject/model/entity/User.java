@@ -21,8 +21,11 @@ import java.util.List;
 @AllArgsConstructor
 public class User extends BaseEntity {
 
+    @Column(nullable = false)
+    private String companyName;
+
     @Column(nullable = false, unique = true)
-    @Size(min = 3, max = 10)
+
     private String username;
 
     @Column(nullable = false)
@@ -34,13 +37,16 @@ public class User extends BaseEntity {
     private String email;
 
 
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Role> roles = new ArrayList<>();
 
 
-    public User(String username, String password, String email) {
+    public User(String username, String password, String email, String companyName) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.companyName = companyName;
     }
+
 }

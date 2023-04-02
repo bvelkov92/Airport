@@ -12,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -33,8 +35,13 @@ public class TicketService {
 
     public void addTicket(AddFlightDto flight) {
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime dateTime = LocalDateTime.parse(flight.getTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+
         Flight findedFlight = this.flightRepository.findByFlightFromAndFlightToAndTimeOfFlight
-                (flight.getFlightFrom(), flight.getFlightTo(), flight.getTime()).get();
+                (flight.getFlightFrom(), flight.getFlightTo(), dateTime).get();
 
 
         Optional<Ticket> ticketForSave = ticketRepository

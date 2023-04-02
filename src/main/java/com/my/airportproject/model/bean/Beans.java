@@ -27,7 +27,7 @@ public class Beans {
                 .formLogin()
                 .loginPage("/users/login")
                 .usernameParameter("username")
-                .passwordParameter("password")
+                .passwordParameter("password".toLowerCase())
                 .defaultSuccessUrl("/welcome")
                 .failureForwardUrl("/users/login-error")
                 .and()

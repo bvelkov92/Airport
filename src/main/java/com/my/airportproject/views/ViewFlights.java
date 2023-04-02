@@ -3,27 +3,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class ViewFlights {
 
 
-    Long id;
-    String firmOwner;
-    String from;
-    String to;
-    Double price;
-    String planeNumber;
+   private Long id;
+   private String firmOwner;
+   private String from;
+   private String to;
+   private Double price;
+   private String planeNumber;
+   private LocalDateTime flightTime;
 
-    String flightTime;
-
-    Double tickedPrice;
+   private Double tickedPrice;
 
 
     public ViewFlights(Long id, String firmOwner, String from,
                        String to, Double price, String planeNumber,
-                       String flightTime, Double tickedPrice) {
+                       LocalDateTime flightTime , Double tickedPrice) {
         this.id=id;
         this.firmOwner = firmOwner;
         this.from = from;

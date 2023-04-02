@@ -44,7 +44,8 @@ public class AuthService {
         User user = new User(
                 userRegisterDto.getUsername(),
                 passwordEncoder.encode(userRegisterDto.getPassword()),
-                userRegisterDto.getEmail()
+                userRegisterDto.getEmail(),
+                userRegisterDto.getCompanyName()
         );
         this.userRepository.save(user);
         this.roleService.setRole(user.getUsername());

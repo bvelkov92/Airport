@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,9 +50,16 @@ public class FlightService {
 
         boolean equalsFromTo = addFlightDto.getFlightFrom().equals(addFlightDto.getFlightTo());
 
+        LocalDateTime dateTime = LocalDateTime.parse(addFlightDto.getTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        LocalDateTime validDate = LocalDateTime.now().plusHours(1).plusMinutes(2);
+
+        if (dateTime.isBefore(validDate)) {
+            throw new RuntimeException("Invalid date! The flight must be at least 1 hour!");
+        }
+
         Optional<Flight> isExistFlight = this.flightRepository.
                 findByFlightFromAndFlightToAndTimeOfFlight(addFlightDto.getFlightFrom()
-                        , addFlightDto.getFlightTo(), addFlightDto.getTime());
+                        , addFlightDto.getFlightTo(), dateTime);
 
         if (equalsFromTo) {
             throw new RuntimeException("Values for Start-End points can't be equals");
@@ -64,11 +73,13 @@ public class FlightService {
             throw new RuntimeException("Plane is not exist!");
         }
 
+
+
         Flight flight = new Flight(
                 addFlightDto.getFlightFrom(),
                 addFlightDto.getFlightTo(),
                 addFlightDto.getPrice(),
-                addFlightDto.getTime(),
+                dateTime,
                 plane.get()
 
         );
