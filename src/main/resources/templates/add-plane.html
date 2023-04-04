@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/commons::head"></head>
+<body>
+<header th:replace="fragments/commons::nav"></header>
+<main>
+  <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add Plane</span></h1>
+  <hr class="hr-3 w-25 bg-white"/>
+
+  <form class="mx-auto w-25 bg-dark rounded"
+        th:method="post"
+        th:action="@{add-plane}"
+        th:object="${addPlane}">
+    <div class="form-group">
+      <div class="label-holder textCol d-flex justify-content-center">
+        <label for="planeNumber" class="h4 mb-2 text-white">Plane Number</label>
+      </div>
+
+      <input type="text" class="form-control"
+             id="planeNumber"
+             name="planeNumber"
+             th:value="*{planeNumber}"/>
+    </div>
+    <div class="button-holder d-flex justify-content-center">
+      <button type="submit" class="btn btn-warning  mb-3" value="Add Plane">Add Plane</button>
+    </div>
+  </form>
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>

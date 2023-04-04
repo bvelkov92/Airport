@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head th:replace="fragments/commons::head"></head>
+<body>
+<header th:replace="fragments/commons::nav"></header>
+<main>
+  <div class="container bg-blur rounded mt-1 mb-4">
+    <div class="col mt-1 mb-2">
+      <div class="row-6 mt-1 mb-1">
+        <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Plane List</h3>
+        <table class="table table-striped">
+          <tr id="options">
+            <th class="flightRow">Plane number</th>
+
+<!--            <th class="flightRow">Options</th>-->
+          </tr>
+          <form th:each="currentPlane : ${planeList}"
+                th:object="${currentPlane}">
+            <tr id="values" class="table table-striped">
+              <td th:text="*{planeNumber}" name="userList"></td>
+
+
+              <td style="width: 15%">
+                <a type="button" class="btn-danger btn" sec:authorize="hasRole('ADMIN')"
+                   onclick="" >Remove</a>
+                <a class="ml-3 text-danger" th:href="@{/users/roles}">
+                  <img src="/img/changeRole.png" height="35"></a>
+              </td>
+            </tr>
+          </form>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>
