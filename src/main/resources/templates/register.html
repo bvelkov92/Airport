@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+
+>
 <head th:replace="fragments/commons::head"></head>
 <body>
 <header th:replace="fragments/commons::nav"></header>
@@ -13,67 +15,68 @@
           th:action="@{register}"
           th:object="${userRegisterDto}">
         <div class="form-group">
-            <div class="form-group" >
+            <div class="form-group">
                 <div class="label-holder textCol d-flex justify-content-center">
                     <label for="companyName" class="h4 mb-2 text-white">Company Name or Three names</label>
                 </div>
-                <input th:errorclass="is-invalid text-danger"  type="text" class="form-control"
+                <input type="text" class="form-control"
                        id="companyName"
                        name="companyName"
-                       th:value="*{companyName}"/>
-                <small th:if="${#fields.hasErrors('companyName')} "
-                       th:errors="*{companyName}"
-                       class="text-danger">Username must be min 1 symbol</small>
+                       th:field="*{companyName}"/>
+                <p th:if="${#fields.hasErrors('companyName')}"
+                   th:errorclass="error"
+                   th:errors="*{companyName}"
+                   class="text-danger">Company name or Name must be min 1 symbol</p>
             </div>
 
             <div class="label-holder textCol d-flex justify-content-center">
                 <label for="username" class="h4 mb-2 text-white">Username</label>
             </div>
 
-            <input th:errorclass="is-invalid text-danger"  type="text" class="form-control"
+            <input type="text" class="form-control"
                    id="username"
                    name="username"
-                   th:value="*{username}"/>
-            <small
-                   th:errors="*{username}"
-                   class="text-danger">Username exist or username is not min 3 symbols!</small>
+                   th:field="*{username}"/>
+            <p th:if="${#fields.hasErrors('username')}"
+               th:errorclass="error"
+               th:errors="*{username}">
+                Username exist or username is not min three symbols!</p>
         </div>
 
-        <div class="form-group">
-            <div class="label-holder text-white textCol d-flex justify-content-center">
-                <label for="email" class="h4 mb-2">Email</label>
-            </div>
-            <input th:errorclass="is-invalid text-danger"  type="email" class="form-control"
-                   id="email"
-                   name="email"
-                   th:value="*{email}"
-            />
-            <small
-                    th:errors="*{email}"
-
-                   class="text-danger">Email exist ot not valid!</small>
+        <p class="form-group">
+        <div class="label-holder text-white textCol d-flex justify-content-center">
+            <label for="email" class="h4 mb-2">Email</label>
+        </div>
+        <input type="email" class="form-control"
+               id="email"
+               name="email"
+               th:field="*{email}"
+        />
+        <p th:if="${#fields.hasErrors('email')}"
+           th:errorclass="error"
+           th:errors="*{email}">Email exist ot not valid!</p>
         </div>
 
-        <div class="form-group">
-            <div class="label-holder text-white textCol d-flex justify-content-center">
-                <label for="password" class="h4 mb-2">Password</label>
-            </div>
-            <input th:errorclass="is-invalid"  type="password" class="form-control" id="password" name="password"
-                   th:value="*{password}"/>
-            <small th:if="${#fields.hasErrors('password')}"
-                   th:errors="*{password}"
-                   class="text-danger">Password must be min 6 symbols</small>
+        <p class="form-group">
+        <div class="label-holder text-white textCol d-flex justify-content-center">
+            <label for="password" class="h4 mb-2">Password</label>
+        </div>
+        <input type="password" class="form-control" id="password" name="password"
+               th:field="*{password}"/>
+        <p th:if="${#fields.hasErrors('password')}"
+           th:errorclass="error"
+           th:errors="*{password}">Password must be min 6 symbols</p>
         </div>
 
-        <div class="form-group">
-            <div class="label-holder text-white textCol d-flex justify-content-center">
-                <label for="confirmPassword" class="h4 mb-2">Confirm Password</label>
-            </div>
-            <input th:errorclass="is-invalid text-danger" type="password" class="form-control" id="confirmPassword" name="confirmPassword"
-                   th:value="*{confirmPassword}"/>
-            <small th:if="${#fields.hasErrors('confirmPassword')}"
-                   th:errors="*{confirmPassword}"
-                   class="text-danger">The passwords do not match </small>
+        <p class="form-group">
+        <div class="label-holder text-white textCol d-flex justify-content-center">
+            <label for="confirmPassword" class="h4 mb-2">Confirm Password</label>
+        </div>
+        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+               th:field="*{confirmPassword}"/>
+        <p th:if="${#fields.hasErrors('confirmPassword')}"
+           th:errorclass="*{confirmPassword}"
+           th:errors>The passwords does not match !</p>
         </div>
 
         <div class="button-holder d-flex justify-content-center">

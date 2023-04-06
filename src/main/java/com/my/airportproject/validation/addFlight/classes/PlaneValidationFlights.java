@@ -3,7 +3,6 @@ package com.my.airportproject.validation.addFlight.classes;
 import com.my.airportproject.service.PlaneService;
 
 import com.my.airportproject.validation.addFlight.anotations.PlaneValidatorFlights;
-import com.my.airportproject.validation.addPlane.anotations.PlaneValidatorAdd;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;

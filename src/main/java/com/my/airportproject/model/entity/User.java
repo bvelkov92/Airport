@@ -37,7 +37,6 @@ public class User extends BaseEntity {
     private String email;
 
 
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Role> roles = new ArrayList<>();
 
@@ -46,6 +45,10 @@ public class User extends BaseEntity {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.companyName = companyName;
+    }
+
+    public User(String companyName) {
         this.companyName = companyName;
     }
 

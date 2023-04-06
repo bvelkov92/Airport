@@ -13,27 +13,27 @@
                 <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Flights</h3>
                 <table class="table table-striped">
                     <tr id="options">
-                        <th class="flightRow">From</th>
-                        <th class="flightRow">To</th>
-                        <th class="flightRow">Price $</th>
-                        <th class="flightRow">Plane Number</th>
-                        <th class="flightRow">Firm Owner</th>
-                        <th class="flightRow">Flight Time</th>
-                        <th class="flightRow">Options</th>
+                        <th class="rowOption">From</th>
+                        <th class="rowOption">To</th>
+                        <th class="rowOption">Price $</th>
+                        <th class="rowOption">Plane Number</th>
+                        <th class="rowOption">Firm Owner</th>
+                        <th class="rowOption">Flight Time</th>
+                        <th class="rowOption">Options</th>
                     </tr>
                     <form th:each="current : ${flightsList}"
                           th:object="${current}">
                         <tr id="values" class="table table-striped">
-                            <td th:text="*{from}" name="flightList"></td>
-                            <td th:text="*{to}" name="flightList"></td>
-                            <td th:text="*{price}" name="flightList"></td>
-                            <td th:text="*{getPlaneNumber()}" name="flightList"></td>
-                            <td th:text="*{firmOwner}" name="flightList"></td>
-                            <td th:text="*{flightTime}" name="flightList"></td>
+                            <td th:text="*{from}"></td>
+                            <td th:text="*{to}"></td>
+                            <td th:text="*{price}"></td>
+                            <td th:text="*{getPlaneNumber()}"></td>
+                            <td th:text="*{firmOwner}"></td>
+                            <td th:text="*{flightTime}"></td>
                             <td style="width: 15%">
                                 <a type="button" class="btn-danger btn" sec:authorize="hasRole('ADMIN')"
                                    onclick="">Remove</a>
-                                <a class="ml-3 text-danger" href="/">
+                                <a type="selector" class="ml-3 text-danger" th:href="'@{/tickets/'+ *{id}">
                                     <img src="/img/buy.png" height="35px"></a>
                             </td>
                         </tr>

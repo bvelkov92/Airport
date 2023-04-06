@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public  @interface PlaneValidatorFlights {
-    String message() default "Plane is exist!";
+    String message() default "Plane is not exist!";
 
     Class<?>[] groups() default {};
 

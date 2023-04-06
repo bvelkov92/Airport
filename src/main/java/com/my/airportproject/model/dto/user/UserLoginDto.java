@@ -17,4 +17,5 @@ public class UserLoginDto {
     @Size(min = 5)
     @NotNull
     private String password;
+
 }

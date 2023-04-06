@@ -1,7 +1,5 @@
 package com.my.airportproject.service;
 
-
-import com.my.airportproject.model.dto.flights.AddFlightDto;
 import com.my.airportproject.model.dto.planes.PlaneDto;
 import com.my.airportproject.model.entity.Plane;
 import com.my.airportproject.model.entity.User;
@@ -18,7 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 @Getter
@@ -52,17 +50,6 @@ public class PlaneService {
         }
     }
 
-    private boolean isPlaneExist(List<Plane> allPlanes, String currentPlane) {
-        boolean isExist = false;
-        for (Plane current : allPlanes) {
-            if (current.getPlaneNumber().equals(currentPlane)) {
-                isExist = true;
-                break;
-            }
-        }
-        return isExist;
-    }
-
     public boolean isNotFounded(String planeNumber) {
         Plane isFoundPlane = this.planeRepository.findByPlaneNumber(planeNumber).orElse(null);
         return isFoundPlane == null;
@@ -74,11 +61,9 @@ public class PlaneService {
     }
 
     public List<Plane> getMyPlanes() {
-        Authentication authenticatedUser = SecurityContextHolder.getContext().getAuthentication();
-        User user1 = this.userRepository.findByUsername(authenticatedUser.getName()).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = this.userRepository.findByUsername(authentication.getName()).get();
 
-
-        return  null;
-
+        return this.planeRepository.findAllByPlaneOwnerFirm(loggedUser).stream().toList();
     }
 }

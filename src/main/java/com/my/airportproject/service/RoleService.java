@@ -15,9 +15,6 @@ import org.springframework.stereotype.Service;
 @Getter
 @Setter
 public class RoleService {
-
-
-
     private final RoleRepository roleRepository;
     private  final UserRepository userRepository;
 

@@ -1,5 +1,6 @@
 package com.my.airportproject.model.dto.user;
 
+import com.my.airportproject.validation.registration.anotations.CompanyValidator;
 import com.my.airportproject.validation.registration.anotations.EqualsPasswords;
 import com.my.airportproject.validation.registration.anotations.UniqueEmail;
 import com.my.airportproject.validation.registration.anotations.UniqueUsername;
@@ -21,6 +22,7 @@ public class UserRegisterDto {
 
     @NotNull
     @Size(min = 1)
+    @CompanyValidator
     private String companyName;
 
     @Size(min = 3, max = 10)

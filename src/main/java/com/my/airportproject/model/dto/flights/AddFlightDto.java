@@ -2,14 +2,16 @@ package com.my.airportproject.model.dto.flights;
 
 import com.my.airportproject.validation.addFlight.anotations.FlightValidator;
 import com.my.airportproject.validation.addFlight.anotations.IsFromToEqualsValidator;
+import com.my.airportproject.validation.addFlight.anotations.PlaneValidatorFlights;
 import com.my.airportproject.validation.addFlight.anotations.TimeValidator;
-import com.my.airportproject.validation.addPlane.anotations.PlaneValidatorAdd;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -29,7 +31,7 @@ public class AddFlightDto {
     private Double price;
     @NotNull
     @Size(min = 1)
-    @PlaneValidatorAdd
+    @PlaneValidatorFlights
     private String planeNumber;
     @NotNull
     @TimeValidator

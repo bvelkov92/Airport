@@ -1,6 +1,5 @@
 package com.my.airportproject.validation.registration.classes;
 
-import com.my.airportproject.model.entity.User;
 import com.my.airportproject.service.AuthService;
 import com.my.airportproject.validation.registration.anotations.UniqueUsername;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,6 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return this.userService.findByUsername(value)==null;
+        return this.userService.findByUsername(value) == null;
     }
 }

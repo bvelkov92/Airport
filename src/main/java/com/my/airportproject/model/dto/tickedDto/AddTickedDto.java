@@ -14,17 +14,15 @@ import javax.validation.constraints.Positive;
 @NoArgsConstructor
 public class AddTickedDto {
 
-    @NotNull
-    @Positive
+    private Long id;
     private Double price;
 
-    @NotNull
     private Flight flight;
 
-    @NotNull
     private User user;
 
-    public AddTickedDto(Flight flight, Double ticketPrice, User user) {
+    public AddTickedDto(Long id, Flight flight, Double ticketPrice, User user) {
+        this.id = id;
         this.flight =flight;
         this.price = ticketPrice;
         this.user = user;

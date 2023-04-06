@@ -73,7 +73,7 @@ footer {
     background: deepskyblue;
 }
 
-.flightRow {
+.rowOption {
     margin: 0px;
     background-color: steelblue;
     border: 2px solid black;
@@ -113,3 +113,26 @@ footer {
 #addPlane {
     padding: 0px 0px 0px 125px;
 }
+
+#noPermission {
+    background-image: url("static/img/notpermission.png");
+
+}
+
+div #403 {
+    background-color: white;
+}
+
+.container #404 {
+    background-color: white;
+}
+
+div #505 {
+    background-color: white;
+}
+
+div #error {
+    background-color: white;
+}
+
+

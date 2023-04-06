@@ -1,36 +1,36 @@
 package com.my.airportproject.config;
-import com.my.airportproject.service.AuthService;
-import com.my.airportproject.service.PatfinderUserDetailsService;
+
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityPasswordEncoder {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity ) throws Exception {
         httpSecurity
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .antMatchers("/").anonymous()
-                .antMatchers("/users/login", "/users/register").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/users/login", "/users/register").anonymous()
                 .antMatchers("/flights/flight-add", "/planes/add-plane", "/users/options","/planes/plane-list")
                 .hasAnyRole("FIRM", "ADMIN")
-                .antMatchers("/users/roles", "users/users-list").hasRole("ADMIN")
+                .antMatchers("/users/roles", "/users/users-list").hasRole("ADMIN")
                 .antMatchers("/flights/flight-list", "/welcome").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/users/login")
-                .usernameParameter("username")
-                .passwordParameter("password".toLowerCase())
+                .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
+                .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
                 .defaultSuccessUrl("/welcome")
                 .failureForwardUrl("/users/login-error")
                 .and()

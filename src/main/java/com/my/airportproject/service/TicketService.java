@@ -1,10 +1,8 @@
 package com.my.airportproject.service;
 
-import com.my.airportproject.model.dto.flights.AddFlightDto;
-import com.my.airportproject.model.dto.tickedDto.AddTickedDto;
 import com.my.airportproject.model.entity.Flight;
-import com.my.airportproject.model.entity.Ticket;
 import com.my.airportproject.repository.FlightRepository;
+import com.my.airportproject.repository.PlaneRepository;
 import com.my.airportproject.repository.TicketRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+
 
 @Service
 @Getter
@@ -24,34 +21,21 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final ModelMapper modelMapper;
     private final FlightRepository flightRepository;
+    private final PlaneRepository planeRepository;
 
     @Autowired
-    public TicketService(TicketRepository ticketRepository, ModelMapper modelMapper, FlightRepository flightRepository) {
+    public TicketService(TicketRepository ticketRepository, ModelMapper modelMapper, FlightRepository flightRepository, PlaneRepository planeRepository) {
         this.ticketRepository = ticketRepository;
         this.modelMapper = modelMapper;
         this.flightRepository = flightRepository;
+        this.planeRepository = planeRepository;
     }
 
 
-    public void addTicket(AddFlightDto flight) {
+    public void buyTicket(Long id) {
 
-        LocalDateTime dateTime = LocalDateTime.parse(flight.getTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
-
-        Flight findedFlight = this.flightRepository.findByFlightFromAndFlightToAndTimeOfFlight
-                (flight.getFlightFrom(), flight.getFlightTo(), dateTime).get();
+        Optional<Flight> byId = this.flightRepository.findById(id);
 
 
-        Optional<Ticket> ticketForSave = ticketRepository
-                .findFirstByFlight_Id(findedFlight.getId());
-
-        AddTickedDto tickedDto =
-                new AddTickedDto(findedFlight, findedFlight.getTicketPrice(), findedFlight.getFirmOwner());
-
-        if (ticketForSave.isEmpty()) {
-            Ticket ticket = this.modelMapper.map(tickedDto, Ticket.class);
-
-            this.ticketRepository.save(ticket);
-        }
     }
 }

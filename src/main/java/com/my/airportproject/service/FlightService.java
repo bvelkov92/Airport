@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -30,6 +31,7 @@ public class FlightService {
     private final ModelMapper modelMapper;
     private final PlaneRepository planeRepository;
     private final UserRepository userRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     private final TicketRepository ticketRepository;
 
@@ -38,11 +40,12 @@ public class FlightService {
     }
 
     @Autowired
-    public FlightService(FlightRepository flightRepository, ModelMapper modelMapper, PlaneRepository planeRepository, UserRepository userRepository, TicketRepository ticketRepository) {
+    public FlightService(FlightRepository flightRepository, ModelMapper modelMapper, PlaneRepository planeRepository, UserRepository userRepository, ApplicationEventPublisher applicationEventPublisher, TicketRepository ticketRepository) {
         this.flightRepository = flightRepository;
         this.modelMapper = modelMapper;
         this.planeRepository = planeRepository;
         this.userRepository = userRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
         this.ticketRepository = ticketRepository;
     }
 
@@ -74,15 +77,6 @@ public class FlightService {
     public Flight findFlight(AddFlightDto flight) {
         LocalDateTime dateTime = LocalDateTime.parse(flight.getTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
-        Flight flight1 = this.flightRepository
-                .findByFlightFromAndFlightToAndTimeOfFlightAndPlaneNumber_PlaneNumber(
-                        flight.getFlightFrom(),
-                        flight.getFlightTo(),
-                        dateTime,
-                        flight.getPlaneNumber()
-                ).orElse(null);
-
-
         return this.flightRepository
                 .findByFlightFromAndFlightToAndTimeOfFlightAndPlaneNumber_PlaneNumber(
                         flight.getFlightFrom(),
@@ -96,6 +90,12 @@ public class FlightService {
     public boolean checkTimeDifference(String value) {
         LocalDateTime dateTime = LocalDateTime.parse(value, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         LocalDateTime validDate = LocalDateTime.now().plusHours(1).plusMinutes(2);
-        return  dateTime.isBefore(validDate);
+        return dateTime.isBefore(validDate);
+    }
+
+
+    public void deleteRow(Long id) {
+        Optional<Flight> byId = this.flightRepository.findById(id);
+        this.flightRepository.delete(byId.get());
     }
 }

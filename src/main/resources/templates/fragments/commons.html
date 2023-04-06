@@ -18,7 +18,6 @@
                 <li sec:authorize="isAuthenticated()">
                     <a class="nav-link text-primary active h5 text-stroke" th:href="@{/welcome}">Home</a>
                 </li>
-
                 <li sec:authorize="!isAuthenticated()">
                     <a class="nav-link text-primary active h5 text-stroke" th:href="@{/users/login}">Login</a>
                 </li>
