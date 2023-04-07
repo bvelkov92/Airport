@@ -51,4 +51,8 @@ public class RoleService {
         user.getRoles().add(role);
         this.userRepository.save(user);
     }
+
+    public User getUserByName(String username) {
+      return  this.userRepository.findByUsername(username).orElse(null);
+    }
 }

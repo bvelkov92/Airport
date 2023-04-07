@@ -1,8 +1,11 @@
 package com.my.airportproject.service;
 
 
+import com.my.airportproject.model.dto.roles.ChangeRoleDto;
 import com.my.airportproject.model.dto.user.UserRegisterDto;
+import com.my.airportproject.model.entity.Role;
 import com.my.airportproject.model.entity.User;
+import com.my.airportproject.model.enums.EnumRoles;
 import com.my.airportproject.repository.UserRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Getter
@@ -60,5 +64,15 @@ public class AuthService {
 
     public boolean checkCompany(String value) {
         return value.length() >= 1;
+    }
+
+    public boolean findByRole(ChangeRoleDto dto) {
+        EnumRoles newRole = dto.getRole();
+        User user = this.userRepository.findByUsername(dto.getUsername()).orElse(null);
+        EnumRoles currentRole = null;
+        if (user != null) {
+            currentRole = user.getRoles().get(0).getName();
+        }
+        return !newRole.equals(currentRole);
     }
 }

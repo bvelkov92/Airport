@@ -20,7 +20,7 @@
             </div>
             <textarea type="text" class="form-control" id="flightFrom" name="flightFrom"></textarea>
             <small th:if="${#fields.hasErrors('flightFrom')}"
-                   class="text-danger">Min size must be 2 symbols!</small>
+                   class="errors alert alert-danger">Min size must be 2 symbols!</small>
         </div>
 
         <div class="form-group">
@@ -29,7 +29,7 @@
             </div>
             <textarea type="text" class="form-control" id="flightTo" name="flightTo"></textarea>
             <small th:if="${#fields.hasErrors('flightTo')}"
-                   class="text-danger">Min size must be 2 symbols!</small>
+                   class="errors alert alert-danger">Min size must be 2 symbols!</small>
         </div>
 
         <div class="form-group">
@@ -38,7 +38,7 @@
             </div>
             <input type="number" step="0.01" class="form-control" id="price" name="price"/>
             <small th:if="${#fields.hasErrors('price')}"
-                   class="text-danger">Price is not valid or form is empty!</small>
+                   class="errors alert alert-danger">Price is not valid or form is empty!</small>
         </div>
 
         <div class="form-group">
@@ -47,7 +47,7 @@
             </div>
             <input type="text" step="0.01" class="form-control" id="planeNumber" name="planeNumber"/>
             <small th:if="${#fields.hasErrors('planeNumber')}"
-                   class="text-danger">Invalid plane!</small>
+                   class="errors alert alert-danger">Invalid plane!</small>
         </div>
 
         <div class="form-group">
@@ -56,7 +56,7 @@
             </div>
             <input type="datetime-local" step="0.01" class="form-control" id="time" name="time"/>
             <small th:if="${#fields.hasErrors('time')}"
-                   class="text-danger">Invalid date! The flight must be at least 1 hour!!</small>
+                   class="errors alert alert-danger" >Invalid date! The flight must be at least 1 hour!!</small>
         </div>
 
 

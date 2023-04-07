@@ -22,11 +22,9 @@
                 <input type="text" class="form-control"
                        id="companyName"
                        name="companyName"
-                       th:field="*{companyName}"/>
+                       th:value="*{companyName}"/>
                 <p th:if="${#fields.hasErrors('companyName')}"
-                   th:errorclass="error"
-                   th:errors="*{companyName}"
-                   class="text-danger">Company name or Name must be min 1 symbol</p>
+                   class="errors alert alert-danger">Company name or Name must be min 1 symbol</p>
             </div>
 
             <div class="label-holder textCol d-flex justify-content-center">
@@ -36,10 +34,9 @@
             <input type="text" class="form-control"
                    id="username"
                    name="username"
-                   th:field="*{username}"/>
+                   th:value="*{username}"/>
             <p th:if="${#fields.hasErrors('username')}"
-               th:errorclass="error"
-               th:errors="*{username}">
+               class="errors alert alert-danger">
                 Username exist or username is not min three symbols!</p>
         </div>
 
@@ -47,14 +44,13 @@
         <div class="label-holder text-white textCol d-flex justify-content-center">
             <label for="email" class="h4 mb-2">Email</label>
         </div>
-        <input type="email" class="form-control"
+        <input type="text" class="form-control"
                id="email"
                name="email"
-               th:field="*{email}"
+               th:value="*{email}"
         />
         <p th:if="${#fields.hasErrors('email')}"
-           th:errorclass="error"
-           th:errors="*{email}">Email exist ot not valid!</p>
+           class="errors alert alert-danger">Email exist ot not valid!</p>
         </div>
 
         <p class="form-group">
@@ -62,10 +58,9 @@
             <label for="password" class="h4 mb-2">Password</label>
         </div>
         <input type="password" class="form-control" id="password" name="password"
-               th:field="*{password}"/>
+               th:value="*{password}"/>
         <p th:if="${#fields.hasErrors('password')}"
-           th:errorclass="error"
-           th:errors="*{password}">Password must be min 6 symbols</p>
+           class="errors alert alert-danger">Password must be min 6 symbols</p>
         </div>
 
         <p class="form-group">
@@ -73,10 +68,9 @@
             <label for="confirmPassword" class="h4 mb-2">Confirm Password</label>
         </div>
         <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
-               th:field="*{confirmPassword}"/>
+               th:value="*{confirmPassword}"/>
         <p th:if="${#fields.hasErrors('confirmPassword')}"
-           th:errorclass="*{confirmPassword}"
-           th:errors>The passwords does not match !</p>
+           class="errors alert alert-danger">The passwords does not match !</p>
         </div>
 
         <div class="button-holder d-flex justify-content-center">

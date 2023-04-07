@@ -21,6 +21,9 @@
              id="planeNumber"
              name="planeNumber"
              th:value="*{planeNumber}"/>
+      <p th:if="${#fields.hasErrors('planeNumber')}"
+         class="errors alert alert-danger">Plane exist! !</p>
+    </div>
     </div>
     <div class="button-holder d-flex justify-content-center">
       <button type="submit" class="btn btn-warning  mb-3" value="Add Plane">Add Plane</button>

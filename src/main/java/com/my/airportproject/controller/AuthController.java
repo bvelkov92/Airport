@@ -68,7 +68,7 @@ public class AuthController {
         }
 
         this.authService.register(userRegisterDto);
-        return "redirect:/welcome";
+        return "redirect:/";
     }
     //================== O P T I O N S ===============
 
@@ -110,12 +110,13 @@ public class AuthController {
                                  RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("changeRole", changeRole);
+            redirectAttributes.addFlashAttribute("username", changeRole);
+
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.changeRole");
             return "redirect:/users/roles";
         }
         this.roleService.setNewRoleOnUser(changeRole);
-        return "redirect:/welcome";
+        return "redirect:/";
     }
 
     //// ================= M O D E L   A T R I B U T E S ================================

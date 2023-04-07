@@ -135,4 +135,8 @@ div #error {
     background-color: white;
 }
 
+ .error {
+     color: red;
+ }
+
 

@@ -1,7 +1,7 @@
 package com.my.airportproject.model.dto.user;
 
 import com.my.airportproject.validation.registration.anotations.CompanyValidator;
-import com.my.airportproject.validation.registration.anotations.EqualsPasswords;
+import com.my.airportproject.validation.registration.anotations.EqualsPassword;
 import com.my.airportproject.validation.registration.anotations.UniqueEmail;
 import com.my.airportproject.validation.registration.anotations.UniqueUsername;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsPasswords
+@EqualsPassword(password="password", confirmPassword="confirmPassword")
 public class UserRegisterDto {
 
     @NotNull
