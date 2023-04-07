@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Airplane Flights</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg bg-nav rounded">
+        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
+            <ul class="nav-item row align-content-center">
+                <li>
+                    <a class="nav-link text-primary active h5 text-stroke" th:href="@{/}">Home</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()">
+                    <a class="nav-link text-primary active h5 text-stroke" th:href="@{/users/login}">Login</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()">
+                    <a class="nav-link text-primary active h5 text-stroke" th:href="@{/users/register}">Register</a>
+                </li>
+
+                <li sec:authorize="isAuthenticated()">
+                    <a class="nav-link text-primary active h5 text-stroke" th:href="@{/flights/flight-list}">Search for
+                        flight</a>
+                </li>
+                <li sec:authorize="hasRole('ADMIN') || hasRole('FIRM')">
+                    <a class="nav-link text-primary active h5 text-stroke" th:href="@{/users/options}">Add Menu</a>
+                </li>
+                <li sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link text-primary active h5 text-stroke" th:href="@{/users/users-list}">Users</a>
+                </li>
+                <li sec:authorize="hasRole('ADMIN') || hasRole('FIRM')">
+                    <a class="nav-link text-primary active h5 text-stroke" th:href="@{/planes/plane-list}">My Planes</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <form th:action="@{users/logout}"
+                          th:method="post">
+                        <input class="nav-link text-primary active h5 text-stroke" type="submit" value="Logout">
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<footer class="footer bg-transparent py-2">
+    <div class="container-fluid text-center">
+        <div class="footer-background h5 text-primary text-stroke fixed-bottom">
+            &copy; Boris project SoftUni.bg. All rights reserved.
+        </div>
+    </div>
+</footer>
+</body>
+</html>
