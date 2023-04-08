@@ -24,7 +24,7 @@ public class SecurityPasswordEncoder {
                 .antMatchers("/users/login", "/users/register").anonymous()
                 .antMatchers("/flights/flight-add", "/planes/add-plane", "/users/options","/planes/plane-list")
                 .hasAnyRole("FIRM", "ADMIN")
-                .antMatchers("/users/roles", "/users/users-list").hasRole("ADMIN")
+                .antMatchers("/users/roles/{id}", "/users/users-list", "/flights/remove/{id}", "/users/removeuser/{id}").hasRole("ADMIN")
                 .antMatchers("/flights/flight-list", "/tickets/ticket-list").authenticated()
                 .and()
                 .formLogin()

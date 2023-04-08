@@ -54,7 +54,9 @@
             <div class="label-holder text-white textCol d-flex justify-content-center">
                 <label for="time" class="h4 mb-2">Time on flight</label>
             </div>
-            <input type="datetime-local" step="0.01" class="form-control" id="time" name="time"/>
+            <input type="datetime-local"
+                   value="01-01-2023T19:30"
+                   class="form-control" id="time" name="time"/>
             <small th:if="${#fields.hasErrors('time')}"
                    class="errors alert alert-danger" >Invalid date! The flight must be at least 1 hour!!</small>
         </div>

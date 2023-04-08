@@ -3,8 +3,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,13 +14,13 @@ public class ViewFlights {
    private String to;
    private Double price;
    private String planeNumber;
-   private LocalDateTime flightTime;
+   private String flightTime;
    private Double tickedPrice;
 
 
     public ViewFlights(Long id, String firmOwner, String from,
                        String to, Double price, String planeNumber,
-                       LocalDateTime flightTime , Double tickedPrice) {
+                       String flightTime , Double tickedPrice) {
         this.id=id;
         this.firmOwner = firmOwner;
         this.from = from;

@@ -17,10 +17,10 @@ import javax.validation.constraints.NotNull;
 @CRRoleValidator
 public class ChangeRoleDto {
 
-    @NotNull
-    @CRUserValidator
+
     String username;
 
+
     @NotNull
-    EnumRoles role;
+   private EnumRoles role;
 }

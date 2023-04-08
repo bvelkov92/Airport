@@ -93,8 +93,8 @@ public class FlightService {
 
     public boolean checkTimeDifference(String value) {
         LocalDateTime dateTime = LocalDateTime.parse(value, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        LocalDateTime validDate = LocalDateTime.now().plusHours(1).plusMinutes(2);
-        return dateTime.isBefore(validDate);
+        LocalDateTime validDate = LocalDateTime.now().plusMinutes(58);
+        return dateTime.isAfter(validDate);
     }
 
 

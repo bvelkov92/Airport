@@ -100,13 +100,15 @@ public class AuthController {
     // ============================ CHANGE ROLE OPTIONS ========================
 
 
-    @GetMapping("/users/roles")
+    @GetMapping("/users/roles/{id}")
     public String getChangeRoles() {
         return "roles";
     }
 
-    @PostMapping("/users/roles")
-    public String postChangeRole(@Valid ChangeRoleDto changeRole,
+    @Transactional
+    @PostMapping("/users/roles/{id}")
+    public String postChangeRole(@PathVariable("id") Long id,
+            @Valid ChangeRoleDto changeRole,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes) {
 
@@ -114,9 +116,10 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("username", changeRole);
 
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.changeRole");
-            return "redirect:/users/roles";
+            return "redirect:/users/user-list";
         }
-        this.roleService.setNewRoleOnUser(changeRole);
+
+        this.roleService.setNewRoleOnUser(changeRole, id);
         return "redirect:/";
     }
 

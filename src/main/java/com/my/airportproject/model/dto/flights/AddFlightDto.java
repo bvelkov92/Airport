@@ -12,14 +12,17 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @FlightValidator
 @IsFromToEqualsValidator
+
 public class AddFlightDto {
+
+
     @NotNull
     @Size(min = 2)
     private String flightFrom;
@@ -36,5 +39,6 @@ public class AddFlightDto {
     @NotNull
     @TimeValidator
     private String time;
+
 
 }

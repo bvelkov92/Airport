@@ -42,10 +42,8 @@ public class RoleService {
         this.userRepository.save(user);
     }
 
-    public void setNewRoleOnUser(ChangeRoleDto changeRoleDto) {
-        if (this.userRepository.findByUsername(changeRoleDto.getUsername()).get().getUsername().isEmpty()) {
-            throw new RuntimeException("Username not found!");
-        }
+    public void setNewRoleOnUser(ChangeRoleDto changeRoleDto, Long id) {
+        changeRoleDto.setUsername(this.userRepository.findById(id).get().getUsername());
         User user = this.userRepository.findByUsername(changeRoleDto.getUsername()).get();
         Role role = this.roleRepository.findRoleByName(changeRoleDto.getRole()).get();
         user.getRoles().clear();
