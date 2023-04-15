@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="fragments/commons::head"></head>
+<body>
+<header th:replace="fragments/commons::nav"></header>
+  <div class="container bg-blur rounded mt-1 mb-4">
+    <div class="col mt-1 mb-2">
+      <div id="tbl" th:value="value" class="row-6 mt-1 mb-1">
+        <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Plane List</h3>
+        <table class="table table-striped">
+          <thead>
+          <tr class="rowOption">
+            <th class="text-center">Plane Number></th>
+          </tr>
+          </thead>
+          <tbody id="planeId">
+
+          </tbody>
+        </table>
+
+        <table >
+          <tr id="planes">
+            <th class="rowOption">Plane number</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+<footer th:replace="fragments/commons::footer"></footer>
+<script th:src="@{../js/list.js}"></script>
+</body>
+</html>
