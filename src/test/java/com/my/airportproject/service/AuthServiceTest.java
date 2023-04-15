@@ -1,10 +1,14 @@
 package com.my.airportproject.service;
 
+import com.my.airportproject.model.dto.roles.ChangeRoleDto;
+import com.my.airportproject.model.dto.user.AdminChangeSomeUsernameDto;
+import com.my.airportproject.model.dto.user.ChangeMyUsernameDto;
 import com.my.airportproject.model.dto.user.UserRegisterDto;
 import com.my.airportproject.model.entity.Role;
 import com.my.airportproject.model.entity.User;
 import com.my.airportproject.model.enums.EnumRoles;
 import com.my.airportproject.repository.UserRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,12 +37,10 @@ public class AuthServiceTest {
     private final String EXIST_USERNAME = "user";
     private final String EXIST_EMAIL = "email@email.com";
     private final String EXIST_PASSWORD = "password";
-
-    private final String ENCODED_PASSWORD = "CryptedPassword";
-    private final Role role = new Role(EnumRoles.USER);
+    private final Role role = new Role(EnumRoles.ADMIN);
     private final String NOT_EXIST_USERNAME = "NotExist";
-
     private final  String INVALID_EMAIL= "test@email.bg";
+
 
     @Mock
     private PasswordEncoder mockPasswordEncoder;
@@ -75,6 +77,7 @@ public class AuthServiceTest {
         testUserRegister.setPassword(EXIST_PASSWORD);
         testUserRegister.setConfirmPassword(EXIST_PASSWORD);
 
+        String ENCODED_PASSWORD = "CryptedPassword";
         when(mockPasswordEncoder.encode(testUserRegister.getPassword())).thenReturn(ENCODED_PASSWORD);
 
         //ACT
@@ -138,14 +141,25 @@ public class AuthServiceTest {
 
         User user = authServiceToTest.getByEmail(EXIST_EMAIL);
 
-
         assertEquals(EXIST_EMAIL,user.getEmail());
         assertEquals(EXIST_USERNAME,user.getUsername());
         assertEquals(EXIST_COMPANY_NAME,user.getCompanyName());
+        Assertions.assertNull(authServiceToTest.getByEmail(INVALID_EMAIL));
     }
 
     @Test
-    void testGetByEmail_Not_Founded(){
+    void testIsValidCheckCompany(){
+        String valid = "Company";
+        String invalid = "";
+        boolean resultIsValid = this.authServiceToTest.checkCompany(valid);
+        boolean resultIsInvalid = this.authServiceToTest.checkCompany(invalid);
+        Assertions.assertTrue(resultIsValid);
+        Assertions.assertFalse(resultIsInvalid);
+
+    }
+
+    @Test
+    void testGetByRole(){
         User testUser = new User();
         testUser.setUsername(EXIST_USERNAME);
         testUser.setEmail(EXIST_EMAIL);
@@ -153,8 +167,87 @@ public class AuthServiceTest {
         testUser.setCompanyName(EXIST_COMPANY_NAME);
         testUser.setRoles(List.of(role));
 
-        when(mockUserRepository.findByEmail("email@email.com")).thenReturn(Optional.of(testUser));
+        when(this.mockUserRepository.findByUsername(EXIST_USERNAME)).thenReturn(Optional.of(testUser));
+        ChangeRoleDto validResult = new ChangeRoleDto(EXIST_USERNAME, EnumRoles.USER);
+        ChangeRoleDto invalidResult = new ChangeRoleDto(EXIST_USERNAME, EnumRoles.ADMIN);
 
-        assertThrows(UsernameNotFoundException.class, ()-> authServiceToTest.getByEmail(INVALID_EMAIL));
+        boolean valid = this.authServiceToTest.getByRole(validResult);
+        boolean invalid = this.authServiceToTest.getByRole(invalidResult);
+        Assertions.assertTrue(valid);
+        Assertions.assertFalse(invalid);
     }
+
+    @Test
+    void  testDeleteRow(){
+        User testUser = new User();
+        testUser.setUsername(EXIST_USERNAME);
+        testUser.setEmail(EXIST_EMAIL);
+        testUser.setPassword(EXIST_PASSWORD);
+        testUser.setCompanyName(EXIST_COMPANY_NAME);
+        testUser.setRoles(List.of(role));
+        Long VALID_ID = 1L;
+        Long INVALID_ID = 2L;
+        when(this.mockUserRepository.findById(1L)).thenReturn(Optional.of(testUser));
+
+
+        boolean validResult = this.authServiceToTest.deleteRow(VALID_ID);
+        boolean invalidResult = this.authServiceToTest.deleteRow(INVALID_ID);
+
+        Assertions.assertTrue(validResult);
+        Assertions.assertFalse(invalidResult);
+    }
+
+
+    @Test
+    void testChangeSomeUsername(){
+        User testUser = new User();
+        testUser.setUsername(EXIST_USERNAME);
+        testUser.setEmail(EXIST_EMAIL);
+        testUser.setPassword(EXIST_PASSWORD);
+        testUser.setCompanyName(EXIST_COMPANY_NAME);
+        testUser.setRoles(List.of(role));
+        when(this.mockUserRepository.findByUsername(EXIST_USERNAME)).thenReturn(Optional.of(testUser));
+
+        AdminChangeSomeUsernameDto validDto = new AdminChangeSomeUsernameDto(
+                EXIST_USERNAME,
+                "Pesho"
+        );
+        AdminChangeSomeUsernameDto invalidDto = new AdminChangeSomeUsernameDto(
+                NOT_EXIST_USERNAME,
+                EXIST_USERNAME
+        );
+
+        boolean validResult = this.authServiceToTest.changeSomeUsername(validDto);
+        boolean invalidResult = this.authServiceToTest.changeSomeUsername(invalidDto);
+
+        Assertions.assertTrue(validResult);
+        Assertions.assertFalse(invalidResult);
+    }
+
+    @Test
+    void testChangeMyUsername(){
+        User testUser = new User();
+        testUser.setUsername(EXIST_USERNAME);
+        testUser.setEmail(EXIST_EMAIL);
+        testUser.setPassword(EXIST_PASSWORD);
+        testUser.setCompanyName(EXIST_COMPANY_NAME);
+        testUser.setRoles(List.of(role));
+        when(this.mockUserRepository.findByEmail(EXIST_EMAIL)).thenReturn(Optional.of(testUser));
+
+        ChangeMyUsernameDto validDto = new ChangeMyUsernameDto(
+                EXIST_USERNAME,
+                "Pesho"
+        );
+        ChangeMyUsernameDto invalidDto = new ChangeMyUsernameDto(
+                NOT_EXIST_USERNAME,
+                EXIST_USERNAME
+        );
+
+        User validResult = this.authServiceToTest.changeMyUsername(EXIST_EMAIL,validDto);
+        User invalidResult = this.authServiceToTest.changeMyUsername(INVALID_EMAIL,invalidDto);
+
+        Assertions.assertEquals(testUser,validResult);
+        Assertions.assertNull(invalidResult);
+    }
+
 }
