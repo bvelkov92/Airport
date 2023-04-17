@@ -1,15 +1,13 @@
 package com.my.airportproject.service;
 
 import com.my.airportproject.model.dto.flights.AddFlightDto;
-import com.my.airportproject.model.entity.Flight;
-import com.my.airportproject.model.entity.Plane;
-import com.my.airportproject.model.entity.Role;
-import com.my.airportproject.model.entity.User;
+import com.my.airportproject.model.entity.*;
 import com.my.airportproject.model.enums.EnumRoles;
 import com.my.airportproject.repository.FlightRepository;
 import com.my.airportproject.repository.PlaneRepository;
 import com.my.airportproject.repository.TicketRepository;
 import com.my.airportproject.repository.UserRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,7 +42,9 @@ public class FlightServiceTest {
     private final String FLIGHT_TO = "Burgas";
     private final Double TICKET_PRICE = 50.00;
     private final String DATE_TIME ="2023-04-16T19:33";
-    private final Role role = new Role(EnumRoles.ADMIN);
+    private final Role ROLE_ADMIN = new Role(EnumRoles.ADMIN);
+    private final Role ROLE_FIRM = new Role(EnumRoles.FIRM);
+    private final Role ROLE_USER = new Role(EnumRoles.USER);
 
     @Mock
     private FlightRepository mockFlightRepository;
@@ -81,13 +81,12 @@ public class FlightServiceTest {
     @Test
     void testAddFlight(){
 
-
         User testUser = new User();
         testUser.setUsername(EXIST_USERNAME);
         testUser.setEmail(EXIST_EMAIL);
         testUser.setPassword(EXIST_PASSWORD);
         testUser.setCompanyName(EXIST_COMPANY_NAME);
-        testUser.setRoles(List.of(role));
+        testUser.setRoles(List.of(ROLE_ADMIN));
 
        LocalDateTime dateTime = LocalDateTime.parse(DATE_TIME, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
@@ -110,12 +109,10 @@ public class FlightServiceTest {
                 dateTime,
                 testPlane
         );
+
         testFlight.setFirmOwner(testUser);
 
         when(this.mockPlaneRepository.findByPlaneNumber(PLANE_NUMBER)).thenReturn(Optional.of(testPlane));
-        when(this.mockModelMapper.map(dto, Flight.class)).thenReturn(testFlight);
-        Optional<Plane> testFoundPlane = this.mockPlaneRepository.findByPlaneNumber(dto.getPlaneNumber());
-
         this.mockFlightService.addFlight(dto);
 
         verify(mockFlightRepository).save(flightArgumentCaptor.capture());
@@ -124,6 +121,122 @@ public class FlightServiceTest {
         assertEquals(dto.getFlightTo(), savedFlight.getFlightTo());
         assertEquals(DATE_TIME, savedFlight.getTimeOfFlight().toString());
         assertEquals(testPlane, savedFlight.getPlaneNumber());
+    }
+
+    @Test
+    void testFindFlight(){
+        User testUser = new User();
+        testUser.setUsername(EXIST_USERNAME);
+        testUser.setEmail(EXIST_EMAIL);
+        testUser.setPassword(EXIST_PASSWORD);
+        testUser.setCompanyName(EXIST_COMPANY_NAME);
+        testUser.setRoles(List.of(ROLE_ADMIN));
+
+        LocalDateTime dateTime = LocalDateTime.parse(DATE_TIME, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+
+        Plane testPlane = new Plane();
+        testPlane.setPlaneOwnerFirm(testUser);
+        testPlane.setPlaneNumber(PLANE_NUMBER);
+
+        AddFlightDto validDto = new AddFlightDto();
+        validDto.setTime(DATE_TIME);
+        validDto.setFlightFrom(FLIGHT_FROM);
+        validDto.setFlightTo(FLIGHT_TO);
+        validDto.setPrice(TICKET_PRICE);
+        validDto.setPlaneNumber(testPlane.getPlaneNumber());
+
+        AddFlightDto invalidDto = new AddFlightDto();
+        invalidDto.setTime(DATE_TIME);
+        invalidDto.setFlightFrom(FLIGHT_TO);
+        invalidDto.setFlightTo(FLIGHT_FROM);
+        invalidDto.setPrice(TICKET_PRICE);
+        invalidDto.setPlaneNumber(testPlane.getPlaneNumber());
+
+        Flight testFlight = new Flight();
+                testFlight.setFlightFrom(FLIGHT_FROM);
+                testFlight.setFlightTo(FLIGHT_TO);
+                testFlight.setTimeOfFlight(dateTime);
+                testFlight.setTicketPrice(TICKET_PRICE);
+                testFlight.setPlaneNumber(testPlane);
+                testFlight.setFirmOwner(testUser);
+
+        when(this.mockFlightRepository
+                .findByFlightFromAndFlightToAndTimeOfFlightAndPlaneNumber_PlaneNumber(
+                        FLIGHT_FROM,
+                        FLIGHT_TO,
+                        dateTime,
+                        PLANE_NUMBER
+                )).thenReturn(Optional.of(testFlight));
+
+        Flight validflight = this.mockFlightService.findFlight(validDto);
+        Flight invalidFlight = this.mockFlightService.findFlight(invalidDto);
+
+        Assertions.assertEquals(validflight, testFlight);
+        Assertions.assertNull(invalidFlight);
+    }
+
+    @Test
+    void testCheckTimeDifference(){
+
+        String invalidTime = LocalDateTime.now().minusDays(5).toString();
+        String validTime = LocalDateTime.now().plusDays(2).toString();
+        boolean validResult = this.mockFlightService.checkTimeDifference(validTime);
+        boolean invalidResult = this.mockFlightService.checkTimeDifference(invalidTime);
+
+        Assertions.assertTrue(validResult);
+        Assertions.assertFalse(invalidResult);
+    }
+
+    @Test
+    void testGetMyTickets(){
+        LocalDateTime dateTime = LocalDateTime.parse(DATE_TIME, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+        User buyer = new User();
+        buyer.setUsername(EXIST_USERNAME);
+        buyer.setEmail(EXIST_EMAIL);
+        buyer.setPassword(EXIST_PASSWORD);
+        buyer.setCompanyName(EXIST_COMPANY_NAME);
+        buyer.setRoles(List.of(ROLE_USER));
+
+        User flightPoster = new User();
+        flightPoster.setUsername("Pesho");
+        flightPoster.setEmail("pesho@pesho.bg");
+        flightPoster.setPassword("topSecret");
+        flightPoster.setCompanyName("Test Company");
+        flightPoster.setRoles(List.of(ROLE_FIRM));
+
+        Plane testPlane = new Plane();
+        testPlane.setPlaneOwnerFirm(flightPoster);
+        testPlane.setPlaneNumber(PLANE_NUMBER);
+
+
+        Flight testFlight = new Flight();
+        testFlight.setFlightFrom(FLIGHT_FROM);
+        testFlight.setFlightTo(FLIGHT_TO);
+        testFlight.setTimeOfFlight(dateTime);
+        testFlight.setTicketPrice(TICKET_PRICE);
+        testFlight.setPlaneNumber(testPlane);
+        testFlight.setFirmOwner(flightPoster);
+
+        Flight testFlight2 = new Flight();
+        testFlight.setFlightFrom(FLIGHT_FROM);
+        testFlight.setFlightTo(FLIGHT_TO);
+        testFlight.setTimeOfFlight(dateTime);
+        testFlight.setTicketPrice(TICKET_PRICE);
+        testFlight.setPlaneNumber(testPlane);
+        testFlight.setFirmOwner(flightPoster);
+
+        Ticket ticket = new Ticket(buyer,testFlight2);
+        List <Ticket> ticketList =List.of(ticket);
+
+        when(this.mockUserRepository.findByEmail(EXIST_EMAIL)).thenReturn(Optional.of(buyer));
+        when(this.mockTicketRepository.findAllByUser_Email(buyer.getEmail())).thenReturn(List.of(ticket));
+
+        List<Ticket> result = this.mockFlightService.getMyTickets(EXIST_EMAIL);
+
+        Assertions.assertEquals(ticketList,result);
+        Assertions.assertEquals(1,result.size());
 
     }
 

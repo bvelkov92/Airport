@@ -25,8 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -93,7 +92,7 @@ public class AuthServiceTest {
 
     @Test
     void testGetUserByUsername() {
-        assertThrows(UsernameNotFoundException.class, () -> authServiceToTest.getUserByUsername(NOT_EXIST_USERNAME));
+        assertNull(authServiceToTest.getUserByUsername(NOT_EXIST_USERNAME));
     }
 
     @Test
@@ -159,7 +158,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    void testGetByRole(){
+    void testChangeRole(){
         User testUser = new User();
         testUser.setUsername(EXIST_USERNAME);
         testUser.setEmail(EXIST_EMAIL);
@@ -167,12 +166,13 @@ public class AuthServiceTest {
         testUser.setCompanyName(EXIST_COMPANY_NAME);
         testUser.setRoles(List.of(role));
 
-        when(this.mockUserRepository.findByUsername(EXIST_USERNAME)).thenReturn(Optional.of(testUser));
-        ChangeRoleDto validResult = new ChangeRoleDto(EXIST_USERNAME, EnumRoles.USER);
-        ChangeRoleDto invalidResult = new ChangeRoleDto(EXIST_USERNAME, EnumRoles.ADMIN);
 
-        boolean valid = this.authServiceToTest.getByRole(validResult);
-        boolean invalid = this.authServiceToTest.getByRole(invalidResult);
+        when(this.mockUserRepository.findByEmail(EXIST_EMAIL)).thenReturn(Optional.of(testUser));
+        ChangeRoleDto validResult = new ChangeRoleDto(EXIST_EMAIL, EnumRoles.USER);
+        ChangeRoleDto invalidResult = new ChangeRoleDto(INVALID_EMAIL, EnumRoles.ADMIN);
+
+        boolean valid = this.authServiceToTest.changeRole(validResult);
+        boolean invalid = this.authServiceToTest.changeRole(invalidResult);
         Assertions.assertTrue(valid);
         Assertions.assertFalse(invalid);
     }
@@ -249,5 +249,7 @@ public class AuthServiceTest {
         Assertions.assertEquals(testUser,validResult);
         Assertions.assertNull(invalidResult);
     }
+
+
 
 }
