@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -29,8 +30,8 @@ public class TicketController {
 
 
     @GetMapping("/tickets/ticket-list")
-    public String viewTickets(Model model) {
-        List<Ticket> myTickets = this.flightService.getMyTickets();
+    public String viewTickets(Principal principal, Model model) {
+        List<Ticket> myTickets = this.flightService.getMyTickets(principal.getName());
 
         List<ViewBoughtTickets> ticketsList = myTickets.stream()
                 .map(ticket ->

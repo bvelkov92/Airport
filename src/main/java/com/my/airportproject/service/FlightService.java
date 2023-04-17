@@ -15,44 +15,43 @@ import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Getter
 @Setter
-@Transactional
 public class FlightService {
 
     private final FlightRepository flightRepository;
     private final ModelMapper modelMapper;
     private final PlaneRepository planeRepository;
     private final UserRepository userRepository;
-    private final ApplicationEventPublisher applicationEventPublisher;
     private final AuthService authService;
 
     private final TicketRepository ticketRepository;
+
 
     public List<Flight> getAllFlights() {
         return flightRepository.findAll();
     }
 
     @Autowired
-    public FlightService(FlightRepository flightRepository, ModelMapper modelMapper, PlaneRepository planeRepository, UserRepository userRepository, ApplicationEventPublisher applicationEventPublisher, AuthService authService, TicketRepository ticketRepository) {
+    public FlightService(FlightRepository flightRepository,
+                         ModelMapper modelMapper,
+                         PlaneRepository planeRepository,
+                         UserRepository userRepository,
+                         AuthService authService,
+                         TicketRepository ticketRepository) {
         this.flightRepository = flightRepository;
         this.modelMapper = modelMapper;
         this.planeRepository = planeRepository;
         this.userRepository = userRepository;
-        this.applicationEventPublisher = applicationEventPublisher;
         this.authService = authService;
         this.ticketRepository = ticketRepository;
     }
@@ -62,7 +61,6 @@ public class FlightService {
 
         Optional<Plane> plane = this.planeRepository.findByPlaneNumber(addFlightDto.getPlaneNumber());
         LocalDateTime dateTime = LocalDateTime.parse(addFlightDto.getTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
         Flight flight = new Flight(
                 addFlightDto.getFlightFrom(),
                 addFlightDto.getFlightTo(),
@@ -71,16 +69,12 @@ public class FlightService {
                 plane.get()
 
         );
-
         flight.setFirmOwner(plane.get().getPlaneOwnerFirm());
-        Flight flightToSave = this.modelMapper.map(flight, Flight.class);
-
-        this.flightRepository.save(flightToSave);
+        this.flightRepository.save(flight);
     }
 
     public Flight findFlight(AddFlightDto flight) {
         LocalDateTime dateTime = LocalDateTime.parse(flight.getTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
         return this.flightRepository
                 .findByFlightFromAndFlightToAndTimeOfFlightAndPlaneNumber_PlaneNumber(
                         flight.getFlightFrom(),
@@ -88,7 +82,6 @@ public class FlightService {
                         dateTime,
                         flight.getPlaneNumber()
                 ).orElse(null);
-
     }
 
     public boolean checkTimeDifference(String value) {
@@ -98,20 +91,9 @@ public class FlightService {
     }
 
 
-    public List<Ticket> getMyTickets() {
-        Authentication authenticator = SecurityContextHolder.getContext().getAuthentication();
-        String username = authenticator.getName();
-        User companyOrUser = this.userRepository.findByEmail(username).get();
-        boolean isAdmin = this.userRepository.findByEmail(username).get().getRoles().get(0).getName().equals(EnumRoles.ADMIN);
-       boolean isFirm = this.userRepository.findByEmail(username).get().getRoles().get(0).getName().equals(EnumRoles.FIRM);
-
-       if (isAdmin){
-            return this.ticketRepository.findAll();
-        } else if (isFirm) {
-            return this.ticketRepository.findAllByFlight_FirmOwner(companyOrUser.getCompanyName());
-        }
-
-        return this.ticketRepository.findAllByUser(companyOrUser);
+    public List<Ticket> getMyTickets(String email) {
+        User companyOrUser = this.userRepository.findByEmail(email).get();
+        return this.ticketRepository.findAllByUser_Email(companyOrUser.getEmail());
     }
 
     public void removeFlight(Long id) {

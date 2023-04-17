@@ -17,6 +17,6 @@ public class CRUserValidation implements ConstraintValidator<CRUserValidator, St
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return this.authService.findByUsername(value)!=null;
+        return this.authService.getByEmail(value)!=null;
     }
 }

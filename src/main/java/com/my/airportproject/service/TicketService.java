@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Getter
@@ -54,6 +55,13 @@ public class TicketService {
     }
 
     public void deleteRow(Long id) {
+        Ticket ticket = this.ticketRepository.findById(id).get();
+        Optional<Flight> flight = this.flightRepository.findByFlightFromAndFlightToAndTimeOfFlightAndPlaneNumber_PlaneNumber(
+                ticket.getFlight().getFlightFrom(),
+                ticket.getFlight().getFlightTo(),
+                ticket.getFlight().getTimeOfFlight(),
+                ticket.getFlight().getPlaneNumber().getPlaneNumber()
+        );
         this.ticketRepository.deleteById(id);
     }
 }

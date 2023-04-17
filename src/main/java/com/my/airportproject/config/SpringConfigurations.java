@@ -21,13 +21,18 @@ public class SpringConfigurations {
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/").permitAll()
+
                 .antMatchers("/users/login", "/users/register", "/flights/flight-list").permitAll()
+
                 .antMatchers("/flights/flight-add", "/planes/add-plane",
-                        "/planes/plane-list")
-                .hasAnyRole("FIRM", "ADMIN")
-                .antMatchers("/users/roles", "/admin/users-list", "/flights/remove/{id}",
-                        "/users/removeuser/{id}", "/admin/changeSomeUsername").hasRole("ADMIN")
+                        "/planes/plane-list").hasAnyRole("FIRM", "ADMIN")
+
+                .antMatchers("/admin/roles", "/admin/users-list", "/flights/remove/{id}",
+                        "/admin/removeuser/{id}", "/admin/changeSomeUsername").hasRole("ADMIN")
+
+
                 .antMatchers("/tickets/ticket-list", "/users/change-username").authenticated()
+
                 .and()
                 .formLogin()
                 .loginPage("/users/login")
@@ -35,6 +40,7 @@ public class SpringConfigurations {
                 .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
                 .defaultSuccessUrl("/")
                 .failureForwardUrl("/users/login-error")
+
                 .and()
                 .logout()
                 .logoutUrl("/users/logout")

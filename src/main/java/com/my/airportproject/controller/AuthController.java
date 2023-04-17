@@ -1,6 +1,6 @@
 package com.my.airportproject.controller;
 import com.my.airportproject.model.dto.roles.ChangeRoleDto;
-import com.my.airportproject.model.dto.user.AdminChangeSomeUsername;
+import com.my.airportproject.model.dto.user.AdminChangeSomeUsernameDto;
 import com.my.airportproject.model.dto.user.ChangeMyUsernameDto;
 import com.my.airportproject.model.dto.user.UserLoginDto;
 import com.my.airportproject.model.dto.user.UserRegisterDto;
@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.transaction.Transactional;
@@ -98,18 +95,16 @@ public class AuthController {
 
     @GetMapping("/users/change-username")
     public String getChangeUser(Principal principal, Model model){
-
-        User user = this.authService.getByEmail(principal.getName());
-
-        ViewUserInChangeUsernameOnNotAdminRole viewUser = new ViewUserInChangeUsernameOnNotAdminRole(user.getUsername());
-        model.addAttribute("username", viewUser);
+            User user = this.authService.getByEmail(principal.getName());
+            ViewUserInChangeUsernameOnNotAdminRole viewUser = new ViewUserInChangeUsernameOnNotAdminRole(user.getUsername());
+            model.addAttribute("username", viewUser);
 
         return "change-username";
     }
 
 
     @PostMapping("/users/change-username")
-    public String postChangeUsername(@Valid ChangeMyUsernameDto usernameDto,
+    public String postChangeUsername(Principal principal, @Valid ChangeMyUsernameDto usernameDto,
                                      BindingResult bindingResult,
                                      RedirectAttributes redirectAttributes){
 
@@ -118,20 +113,23 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.usernameDto");
             return "redirect:/users/change-username";
         }
-
-            this.authService.changeMyUsername(usernameDto);
-        return "redirect:/";
+        String username = principal.getName();
+        User user = this.authService.changeMyUsername(username, usernameDto);
+        if (user!=null) {
+            return "redirect:/";
+        }
+        return "redirect:/users/change-username";
     }
 
 
-    @GetMapping("/admin/changeSomeUsername")
+    @GetMapping("/admin/change-some-username")
     public String getChangeSomeUsername(){
-        return "changeSomeUsername";
+        return "change-some-username";
     }
 
 
-    @PostMapping("/admin/changeSomeUsername")
-    public String postChangeSomeUsername(@Valid AdminChangeSomeUsername usernameDto,
+    @PostMapping("/admin/change-some-username")
+    public String postChangeSomeUsername(@Valid AdminChangeSomeUsernameDto usernameDto,
                                      BindingResult bindingResult,
                                      RedirectAttributes redirectAttributes){
 
@@ -140,7 +138,6 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.usernameDto");
             return "redirect:/users/change-username";
         }
-
 
         this.authService.changeSomeUsername(usernameDto);
         return "redirect:/";
@@ -150,30 +147,26 @@ public class AuthController {
 
     // ============================ CHANGE ROLE OPTIONS ========================
 
-
-    @GetMapping("/users/roles")
+    @GetMapping("/admin/roles")
     public String getChangeRoles() {
         return "roles";
     }
 
-
-    @PostMapping("/users/roles")
+    @PostMapping("/admin/roles")
     public String postChangeRole(@Valid ChangeRoleDto changeRole,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("role", changeRole);
-
+            redirectAttributes.addFlashAttribute("email", changeRole);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.changeRole");
-            return "redirect:/admin/users-list";
+            return "redirect:/admin/roles";
         }
 
         this.roleService.setNewRoleOnUser(changeRole);
         return "redirect:/";
     }
-
-    //============== Delete User ============
 
     @Transactional
     @GetMapping("/admin/removeuser/{id}")
@@ -208,8 +201,8 @@ public class AuthController {
 
 
     @ModelAttribute("changeSomeUsername")
-    public AdminChangeSomeUsername adminChangeSomeUsername(){
-        return new AdminChangeSomeUsername();
+    public AdminChangeSomeUsernameDto adminChangeSomeUsername(){
+        return new AdminChangeSomeUsernameDto();
     }
 
 

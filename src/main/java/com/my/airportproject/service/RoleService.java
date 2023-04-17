@@ -11,6 +11,8 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 @Getter
 @Setter
@@ -24,9 +26,9 @@ public class RoleService {
         this.userRepository = userRepository;
     }
 
-    public void setRole(String username) {
-        User user = this.userRepository.findByUsername(username).get();
-        Role role;
+    public void setRole(String email) {
+        User user = this.userRepository.findByEmail(email).orElse(null);
+        Role role= new Role();
         if (this.userRepository.count() <= 1) {
             role = new Role(EnumRoles.ADMIN);
             user.getRoles().add(role);
@@ -42,15 +44,19 @@ public class RoleService {
         this.userRepository.save(user);
     }
 
-    public void setNewRoleOnUser(ChangeRoleDto changeRoleDto) {
-        User user = this.userRepository.findByUsername(changeRoleDto.getUsername()).get();
-        Role role = this.roleRepository.findRoleByName(changeRoleDto.getRole()).get();
-        user.getRoles().clear();
-        user.getRoles().add(role);
-        this.userRepository.save(user);
-    }
-
-    public User getUserByName(String username) {
-      return  this.userRepository.findByUsername(username).orElse(null);
+    public boolean setNewRoleOnUser(ChangeRoleDto changeRoleDto) {
+        User user = this.userRepository.findByEmail(changeRoleDto.getEmail()).orElse(null);
+        EnumRoles curentRole=null;
+        if (user!=null) {
+             curentRole = user.getRoles().get(0).getName();
+        }
+        Role role = this.roleRepository.findRoleByName(changeRoleDto.getRole()).orElse(null);
+        if (user != null && role!=null && !curentRole.equals(changeRoleDto.getRole())) {
+            user.setRoles(new ArrayList<>());
+            user.getRoles().add(role);
+            this.userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 }

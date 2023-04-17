@@ -13,18 +13,8 @@ import java.util.Optional;
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
-
-    @Override
-    Optional<Ticket> findById(Long id);
-
-
-    List<Ticket> findAllByUser(User user);
-    List<Ticket> findAllByFlight_FirmOwner(String company);
+    List<Ticket> findAllByUser_Email(String email);
 
     List<Ticket> findAllByFlight_Id(Long id);
-
-    Optional<Ticket> findByFlight_Id(Long flightId);
-    List<Ticket> findAllByFlight_TimeOfFlight(LocalDateTime time);
-
 
 }

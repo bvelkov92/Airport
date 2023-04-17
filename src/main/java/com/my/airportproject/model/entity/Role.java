@@ -4,7 +4,9 @@ import com.my.airportproject.model.enums.EnumRoles;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 
 @Table(name = "roles")
@@ -19,5 +21,6 @@ public class Role extends BaseEntity {
 
     public Role(EnumRoles role) {
         this.name = role;
+
     }
 }

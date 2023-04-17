@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CRUserValidator {
 
-    String message() default "Username not found!";
+    String message() default "Email not found!";
 
     Class<?>[] groups() default {};
 

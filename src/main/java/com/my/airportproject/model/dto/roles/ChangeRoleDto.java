@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -16,12 +17,13 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @CRRoleValidator
 public class ChangeRoleDto {
-
     @NotNull
+    @Email
     @CRUserValidator
-    String username;
-
+     private String email;
 
     @NotNull
+
    private EnumRoles role;
+
 }

@@ -32,6 +32,8 @@ public class Flight extends BaseEntity {
     private Plane planeNumber;
 
 
+
+
     public Flight(String flightFrom, String flightTo, Double price, LocalDateTime time, Plane plane) {
         this.flightFrom = flightFrom;
         this.flightTo = flightTo;

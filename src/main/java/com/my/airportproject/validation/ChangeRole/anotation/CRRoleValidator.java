@@ -9,11 +9,11 @@ import java.lang.annotation.*;
 
 @Documented
 @Constraint(validatedBy = CRRoleValidation.class)
-@Target({ElementType.TYPE, ElementType.FIELD})
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CRRoleValidator {
 
-    String message() default "User is with the same role!!";
+    String message() default "Invalid change!";
 
     Class<?>[] groups() default {};
 
