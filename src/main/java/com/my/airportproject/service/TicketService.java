@@ -7,6 +7,7 @@ import com.my.airportproject.model.entity.User;
 import com.my.airportproject.repository.FlightRepository;
 import com.my.airportproject.repository.PlaneRepository;
 import com.my.airportproject.repository.TicketRepository;
+import com.my.airportproject.repository.UserRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
@@ -15,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -27,23 +27,27 @@ public class TicketService {
     private final ModelMapper modelMapper;
     private final FlightRepository flightRepository;
     private final PlaneRepository planeRepository;
+    private  final UserRepository userRepository;
 
-    private final AuthService authService;
 
     @Autowired
-    public TicketService(TicketRepository ticketRepository, ModelMapper modelMapper, FlightRepository flightRepository, PlaneRepository planeRepository, AuthService authService) {
+    public TicketService(TicketRepository ticketRepository,
+                         ModelMapper modelMapper,
+                         FlightRepository flightRepository,
+                         PlaneRepository planeRepository,
+                         UserRepository userRepository) {
         this.ticketRepository = ticketRepository;
         this.modelMapper = modelMapper;
         this.flightRepository = flightRepository;
         this.planeRepository = planeRepository;
-        this.authService = authService;
+        this.userRepository = userRepository;
     }
 
 
     public void buyTicket(Long id) {
         Authentication authenticator = SecurityContextHolder.getContext().getAuthentication();
         String username = authenticator.getName();
-        User user = this.authService.getByEmail(username);
+        User user = this.userRepository.findByEmail(username).get();
         Flight flight = this.flightRepository.findById(id).get();
         AddTickedDto newTicket = new AddTickedDto(
                flight,

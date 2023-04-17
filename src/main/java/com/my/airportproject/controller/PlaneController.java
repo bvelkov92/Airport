@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.nio.file.FileAlreadyExistsException;
+import java.security.Principal;
 
 
 @Controller
@@ -33,7 +35,7 @@ public class PlaneController {
     }
 
     @PostMapping("/planes/add-plane")
-    public String postPlane(@Valid PlaneDto planeDto,
+    public String postPlane(Principal loggedUser, @Valid PlaneDto planeDto,
                             BindingResult bindingResult,
                             RedirectAttributes redirectAttributes) {
 
@@ -42,7 +44,11 @@ public class PlaneController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.planeDto");
             return "redirect:/planes/add-plane";
         }
-        this.planeService.addPlane(planeDto);
+
+        boolean isAdded = this.planeService.addPlane(loggedUser.getName(), planeDto);
+        if (isAdded) {
+            System.out.println("Plane Added Successful!");
+        }
         return "redirect:/";
     }
 

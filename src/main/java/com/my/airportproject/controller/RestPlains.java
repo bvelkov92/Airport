@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -20,8 +21,8 @@ public class RestPlains {
 
 
     @GetMapping("/planes/plane-list")
-    public ResponseEntity<List<ViewMyPlane>> getMyPlaneList(Model model) {
-        var planes = this.planeService.getMyPlanes();
+    public ResponseEntity<List<ViewMyPlane>> getMyPlaneList(Principal user, Model model) {
+        var planes = this.planeService.getMyPlanes(user.getName());
         List<ViewMyPlane> planeList = planes.stream().map(el -> new ViewMyPlane(el.getPlaneNumber()))
                 .toList();
         return ResponseEntity.ok(planeList);
