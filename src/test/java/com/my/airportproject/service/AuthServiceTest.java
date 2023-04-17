@@ -19,7 +19,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -39,8 +38,6 @@ public class AuthServiceTest {
     private final Role role = new Role(EnumRoles.ADMIN);
     private final String NOT_EXIST_USERNAME = "NotExist";
     private final  String INVALID_EMAIL= "test@email.bg";
-
-
     @Mock
     private PasswordEncoder mockPasswordEncoder;
 
