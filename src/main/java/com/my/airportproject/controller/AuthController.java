@@ -158,8 +158,8 @@ public class AuthController {
                                  RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("role", changeRole);
-            redirectAttributes.addFlashAttribute("email", changeRole);
+            redirectAttributes.addFlashAttribute("changeRole", changeRole);
+
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.changeRole");
             return "redirect:/admin/roles";
         }
@@ -174,6 +174,7 @@ public class AuthController {
         this.authService.deleteRow(id);
         return "redirect:/admin/users-list";
     }
+
 
 
 

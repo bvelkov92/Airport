@@ -46,8 +46,7 @@ public class SpringConfigurations {
                 .logoutUrl("/users/logout")
                 .logoutSuccessUrl("/")
                 .deleteCookies("JSESSIONID")
-                .clearAuthentication(true).and()
-                .csrf().disable();
+                .clearAuthentication(true);
 
         return httpSecurity.build();
     }

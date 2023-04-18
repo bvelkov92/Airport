@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -69,9 +70,12 @@ public class FlightController {
     }
     
     @GetMapping("/flights/{id}")
-    public String addTicket(@PathVariable("id") Long id){
-        this.ticketService.buyTicket(id);
+    public String addTicket(Principal principal, @PathVariable("id") Long id){
+        String userEmail = principal.getName();
+        this.ticketService.buyTicket(id, userEmail);
         return "redirect:/tickets/ticket-list";
+
+        //TODO: To add Principal
     }
     @Transactional
     @GetMapping("/flights/remove/{id}")

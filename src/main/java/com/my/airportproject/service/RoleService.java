@@ -34,9 +34,10 @@ public class RoleService {
             user.getRoles().add(role);
             Role role2 = new Role(EnumRoles.FIRM);
             Role role1 = new Role(EnumRoles.USER);
+            this.roleRepository.save(role);
             this.roleRepository.save(role2);
             this.roleRepository.save(role1);
-            this.roleRepository.save(role);
+
         } else {
             role = this.roleRepository.findRoleByName(EnumRoles.USER).get();
             user.getRoles().add(role);

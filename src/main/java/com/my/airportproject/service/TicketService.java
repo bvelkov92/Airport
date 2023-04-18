@@ -42,12 +42,8 @@ public class TicketService {
         this.planeRepository = planeRepository;
         this.userRepository = userRepository;
     }
-
-
-    public void buyTicket(Long id) {
-        Authentication authenticator = SecurityContextHolder.getContext().getAuthentication();
-        String username = authenticator.getName();
-        User user = this.userRepository.findByEmail(username).get();
+    public void buyTicket(Long id, String email) {
+        User user = this.userRepository.findByEmail(email).orElse(null);
         Flight flight = this.flightRepository.findById(id).get();
         AddTickedDto newTicket = new AddTickedDto(
                flight,
@@ -57,15 +53,12 @@ public class TicketService {
         Ticket ticket = modelMapper.map(newTicket, Ticket.class);
         this.ticketRepository.save(ticket);
     }
-
-    public void deleteRow(Long id) {
-        Ticket ticket = this.ticketRepository.findById(id).get();
-        Optional<Flight> flight = this.flightRepository.findByFlightFromAndFlightToAndTimeOfFlightAndPlaneNumber_PlaneNumber(
-                ticket.getFlight().getFlightFrom(),
-                ticket.getFlight().getFlightTo(),
-                ticket.getFlight().getTimeOfFlight(),
-                ticket.getFlight().getPlaneNumber().getPlaneNumber()
-        );
-        this.ticketRepository.deleteById(id);
+    public boolean deleteRow(Long id) {
+        Ticket ticket = this.ticketRepository.findById(id).orElse(null);
+        if (ticket!=null) {
+            this.ticketRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
