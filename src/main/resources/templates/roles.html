@@ -10,18 +10,18 @@
 
     <form class="mx-auto w-25 bg-dark rounded"
           th:method="post"
-          th:action="@{role}"
+          th:action="@{roles}"
           th:object="${changeRoleDto}">
         <div class="form-group">
             <div class="label-holder textCol d-flex justify-content-center">
-                <label for="username" class="h4 mb-2 text-white">Username</label>
+                <label for="email" class="h4 mb-2 text-white">Email</label>
             </div>
             <input type="text" class="form-control"
-                  id="username"
-                  name="username"
-                   th:value="*{username}"/>
-            <p th:if="${#fields.hasErrors('username')}"
-               class="errors alert alert-danger">Username not found!</p>
+                  id="email"
+                  name="email"
+                   th:value="*{email}"/>
+            <p th:if="${#fields.hasErrors('email')}"
+               class="errors alert alert-danger">Email not found!</p>
         </div>
         <div class="form-group">
             <div class="label-holder text-white textCol d-flex justify-content-center">

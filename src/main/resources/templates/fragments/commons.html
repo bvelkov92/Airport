@@ -33,7 +33,8 @@
                 <ul class='sub-menus'>
                     <li>
                         <a th:href="@{/admin/users-list}">Users</a>
-                        <a th:href="@{/admin/changeSomeUsername}">Change some username</a>
+                        <a th:href="@{/admin/change-some-username}">Change some username</a>
+                        <a th:href="@{/admin/roles}">Change user role</a>
                     </li>
                 </ul>
             </li>
@@ -42,7 +43,11 @@
                     <li sec:authorize="isAuthenticated()"><a th:href="@{/users/change-username}">New Username</a>
                     </li>
                     <li sec:authorize="isAuthenticated()"><a th:href="@{/tickets/ticket-list}">Bought tickets</a></li>
-                    <li sec:authorize="isAuthenticated()"><a th:href="@{/users/logout}">Logout</a></li>
+                    <li sec:authorize="isAuthenticated()">
+                        <form  th:action="@{users/logout}" th:method="post">
+                            <button id="logout" type="submit" >Logout</button>
+                        </form>
+                    </li>
                 </ul>
             </li>
             <ul id="first">

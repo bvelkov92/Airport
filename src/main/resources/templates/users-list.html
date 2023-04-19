@@ -29,8 +29,6 @@
               <td style="width: 15%">
                 <a type="selector" class="ml-3 text-danger" sec:authorize="hasRole('ADMIN')" th:href="@{'removeuser/'+*{id}}">
                   <img src="/img/rem.jpg" height="35px"></a>
-                <a class="ml-3 text-danger" th:href="@{/users/roles}">
-                  <img src="/img/changeRole.png" height="35"></a>
               </td>
             </tr>
           </form>

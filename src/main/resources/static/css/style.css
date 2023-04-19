@@ -171,6 +171,7 @@ div #error {
 #menu a.dropdown-arrow:after {
     content: "\2193";
     margin-left: 5px;
+    cursor: pointer;
 }
 #menu li a:hover {
     color: #0099CC;
@@ -238,5 +239,22 @@ div #error {
     text-align: right;
 }
 
+#logout{
+    color: #FFFFFF;
+    font-size: 17px;
+    display: block;
+    padding: 13px 100px 16px 17px;
+    cursor: pointer;
+}
 
+#logout:hover{
+    background: #F2F2F2;
+    color: #444444;
+    display: block;
+
+}
+
+div #banned{
+    background-image: url(static/img/banned.png);
+}
 
