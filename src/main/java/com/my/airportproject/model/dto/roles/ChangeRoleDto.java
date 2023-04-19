@@ -23,7 +23,6 @@ public class ChangeRoleDto {
      private String email;
 
     @NotNull
-
    private EnumRoles role;
 
 }

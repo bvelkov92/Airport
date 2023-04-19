@@ -1,6 +1,6 @@
 package com.my.airportproject.model.dto.user;
 
-import com.my.airportproject.validation.ChangeRole.anotation.CRUserValidator;
+import com.my.airportproject.validation.changeUsername.anotation.ChangeUsernameValidator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,5 +16,6 @@ public class AdminChangeSomeUsernameDto {
         @NotNull
         private String username;
         @NotNull
+        @ChangeUsernameValidator
         private  String newUsername;
     }

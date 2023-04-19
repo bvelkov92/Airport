@@ -51,6 +51,12 @@ public class AuthService {
                 .orElse(null);
     }
 
+    public boolean getUserByUsernameForChangeUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElse(null);
+        return !username.isEmpty() && !username.isBlank() && user == null;
+    }
+
     public List<User> getAllUsers() {
         return this.userRepository.findAll();
     }

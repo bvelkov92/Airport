@@ -159,7 +159,6 @@ public class AuthController {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("changeRole", changeRole);
-
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.changeRole");
             return "redirect:/admin/roles";
         }
