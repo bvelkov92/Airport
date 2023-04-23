@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/commons::head"></head>
+<body>
+<header th:replace="fragments/commons::nav"></header>
+<main>
+    <div id="entryText" class="container bg-blur rounded mt-5 ">
+        <h1>Welcome to Airport App</h1>
+        <hr class="my-3 bg-white w-50"/>
+
+        <th:block sec:authorize="!isAuthenticated()">
+            <p class="h4">
+                Welcome,
+                <br>
+                If you wish to access all options of our site and if you are firm or just a user who want to buy ticket
+                for
+                some flight, make
+            <h3><a class="text-primary" th:href="@{/users/question}">Register</a></h3> <h4>or </h4>
+            <h3><a class="text-primary" th:href="@{/users/login}">Login</a></h3>
+            <h4> if you have an account to unlock all options.</h4>
+        </th:block>
+        <th:block sec:authorize="isAuthenticated()">
+            <p class="h4">
+                Welcome,
+            <p class="h4">
+                Airport App is the newest online airport app at which
+                every user can buy ticket for plane flights.
+                <br>If you are company you can to add a new planes in your company repository
+                and to add your flights schedule!</p>
+        </th:block>
+        >
+    </div>
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>
