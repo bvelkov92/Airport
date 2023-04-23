@@ -34,7 +34,7 @@ Everyone have a option to change his username, and the operation wil be successf
 
 
 
-IF YOU HAV TO SEE A PICTUTRES OPEN FOLDER "images";
+IF YOU HAVE TO SEE A PICTUTRES OPEN FOLDER "images";
 
 
 
